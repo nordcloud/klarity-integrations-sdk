@@ -1,0 +1,13 @@
+generatorName: go
+inputSpec: https://integrations-api.klarity.nordcloudapp.com/docs/api.yml
+gitUserId: nordcloud
+gitRepoId: klarity-integrations-sdk-go/go
+packageName: integrations
+httpUserAgent: klarity-integrations-client/go
+additionalProperties:
+  isGoSubmodule: true
+  disallowAdditionalPropertiesIfNotPresent: false
+  removeEnumValuePrefix: false
+  generateInterfaces: true
+  packageName: klarityintegrations
+
