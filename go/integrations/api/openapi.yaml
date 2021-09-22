@@ -1,0 +1,209 @@
+openapi: 3.0.3
+info:
+  title: Klarity Integrations
+  version: 0.0.1
+servers:
+- description: prod environment
+  url: https://integrations-api.klarity.nordcloudapp.com
+security:
+- bearerAuth: []
+tags:
+- description: Klarity Integrations endpoints
+  name: KlarityIntegrations
+paths:
+  /v1/estateRecords:
+    post:
+      description: Create Klarity estate records or update their metadata/tags
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstateRecordsRequestBody'
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcceptedResponseBody'
+          description: Status Accepted
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Manage Klarity estate records
+      tags:
+      - KlarityIntegrations
+components:
+  schemas:
+    EstateRecordsRequestBody:
+      example:
+        records:
+        - metadata:
+            issuer: Atlassian
+            license:
+              maxUsers: 10
+              bitbucketIncluded: true
+              pipelineHours: 100
+          name: Jira Subscription 002
+          id: js002
+          type: jira/subscription/basic
+          tags:
+            env: dev
+            project: exampleProject
+        - metadata:
+            issuer: Atlassian
+            license:
+              maxUsers: 10
+              bitbucketIncluded: true
+              pipelineHours: 100
+          name: Jira Subscription 002
+          id: js002
+          type: jira/subscription/basic
+          tags:
+            env: dev
+            project: exampleProject
+        - metadata:
+            issuer: Atlassian
+            license:
+              maxUsers: 10
+              bitbucketIncluded: true
+              pipelineHours: 100
+          name: Jira Subscription 002
+          id: js002
+          type: jira/subscription/basic
+          tags:
+            env: dev
+            project: exampleProject
+        - metadata:
+            issuer: Atlassian
+            license:
+              maxUsers: 10
+              bitbucketIncluded: true
+              pipelineHours: 100
+          name: Jira Subscription 002
+          id: js002
+          type: jira/subscription/basic
+          tags:
+            env: dev
+            project: exampleProject
+        - metadata:
+            issuer: Atlassian
+            license:
+              maxUsers: 10
+              bitbucketIncluded: true
+              pipelineHours: 100
+          name: Jira Subscription 002
+          id: js002
+          type: jira/subscription/basic
+          tags:
+            env: dev
+            project: exampleProject
+      properties:
+        records:
+          items:
+            $ref: '#/components/schemas/EstateRecordsRequestBody_records'
+          maxItems: 1000
+          minItems: 1
+          type: array
+      type: object
+    AcceptedResponseBody:
+      description: Response returned when processing of a request ends successfully
+      example:
+        message: Accepted 10 estate records
+      properties:
+        message:
+          example: Accepted 10 estate records
+          type: string
+      type: object
+    ErrorResponse:
+      description: Response returned when processing of a request ends with an error
+      properties:
+        error:
+          description: Error message
+          type: string
+      required:
+      - error
+      type: object
+    EstateRecordsRequestBody_records:
+      example:
+        metadata:
+          issuer: Atlassian
+          license:
+            maxUsers: 10
+            bitbucketIncluded: true
+            pipelineHours: 100
+        name: Jira Subscription 002
+        id: js002
+        type: jira/subscription/basic
+        tags:
+          env: dev
+          project: exampleProject
+      properties:
+        id:
+          description: Internal ID of a resource
+          example: js002
+          maxLength: 255
+          type: string
+        name:
+          description: Friendly name of a resource (id will be used, if not provided)
+          example: Jira Subscription 002
+          maxLength: 255
+          type: string
+        type:
+          description: Type of a resource (resourceType/extension) can contain just
+            type, eg `jira` or with subtypes separated by "/" symbol
+          example: jira/subscription/basic
+          maxLength: 255
+          type: string
+        metadata:
+          description: |
+            Metadata contains a JSON object with information about the record.
+            Keys of the object can by any string value, excluding the `tags` key which is reserved for the tags property.
+            Maximum object size is 1MB.
+          example:
+            issuer: Atlassian
+            license:
+              maxUsers: 10
+              bitbucketIncluded: true
+              pipelineHours: 100
+          type: object
+        tags:
+          additionalProperties:
+            maxLength: 255
+            type: string
+          description: Tags are key => value representing tags in Klarity. Maximum
+            object size is 1MB.
+          example:
+            env: dev
+            project: exampleProject
+          maxProperties: 1000
+          type: object
+      required:
+      - id
+      - type
+      type: object
+  securitySchemes:
+    bearerAuth:
+      bearerFormat: JWT
+      scheme: bearer
+      type: http
