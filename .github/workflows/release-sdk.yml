@@ -31,6 +31,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: go/integrations/v${{ steps.version.outputs.version }}
-          release_name: v${{ steps.version.outputs.version }}
+          release_name: GO v${{ steps.version.outputs.version }}
           draft: false
           prerelease: false
