@@ -30,20 +30,3 @@ jobs:
         uses: actions-js/push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-
-      # Fetch current version to use for tagging purpose
-      - name: Get current version
-        id: version
-        run: echo "::set-output name=version::$(grep "version:" ./go/integrations/api/openapi.yaml  | awk -F':' '{print $2}' | sed 's/[",]//g' | tr -d '[[:space:]]')"
-
-      # Release SDK
-      - name: Release SDK
-        id: release-sdk
-        uses: actions/create-release@latest
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: go/integrations/v${{ steps.version.outputs.version }}
-          release_name: v${{ steps.version.outputs.version }}
-          draft: false
-          prerelease: false
