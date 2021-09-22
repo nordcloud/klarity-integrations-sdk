@@ -4,6 +4,7 @@ name: Generate SDK client
 
 on:
   workflow_dispatch:
+  repository_dispatch:
 
 jobs:
   generate-clients:
