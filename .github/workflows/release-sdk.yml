@@ -18,13 +18,20 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      # Get changes since last tag
+      - name: Get changes since last tag
+        id: go_changes
+        uses: jsmith/changes-since-last-tag@v0.4.1
+
       # Fetch current version to use for tagging purpose
       - name: Get current version
+        if: steps.go_changes.outputs.any_changed == 'true'
         id: version
         run: echo "::set-output name=version::$(grep "version:" ./go/integrations/api/openapi.yaml  | awk -F':' '{print $2}' | sed 's/[",]//g' | tr -d '[[:space:]]')"
 
-      # Release SDK
+      # Release SDK if there are any new commits since last tag
       - name: Release SDK
+        if: steps.go_changes.outputs.any_changed == 'true'
         id: release-sdk
         uses: actions/create-release@latest
         env:
