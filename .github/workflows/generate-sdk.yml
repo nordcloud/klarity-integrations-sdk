@@ -26,9 +26,9 @@ jobs:
         run: echo "::set-output name=version::$(curl -L -s https://integrations-api.klarity.nordcloudapp.com/docs/api.yml | grep "version:" | awk -F':' '{print $2}' | sed 's/[",]//g' | tr -d '[[:space:]]')"
 
       # Break job if nothing has changed
-      - name: Break if versions doesn't change
+      - name: Break if versions did not change
         if: steps.version.outputs.version == steps.remote_version.outputs.version
-        run: echo "API version doesnt change, breaking!" && exit 1
+        run: echo "API version did not change, there is no need to build SDK" && exit 1
 
       # Clear directory to avoid having unused files after generate sdk
       - name: Remove File
