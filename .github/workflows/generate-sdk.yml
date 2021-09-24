@@ -25,21 +25,23 @@ jobs:
         id: remote_version
         run: echo "::set-output name=version::$(curl -L -s https://integrations-api.klarity.nordcloudapp.com/docs/api.yml | grep "version:" | awk -F':' '{print $2}' | sed 's/[",]//g' | tr -d '[[:space:]]')"
 
+      # Break job if nothing has changed
+      - name: Break if versions doesn't change
+        if: steps.version.outputs.version == steps.remote_version.outputs.version
+        run: echo "API version doesnt change, breaking!" && exit 1
+
       # Clear directory to avoid having unused files after generate sdk
       - name: Remove File
-        if:  steps.version.outputs.version  != steps.remote_version.outputs.version
         run: rm -rf go/integrations
 
       # Generate a client package
       - name: OpenAPI Generator Action
-        if:  steps.version.outputs.version  != steps.remote_version.outputs.version
         uses: kpurdon/openapi-generator-action@v0.0.3
         with:
           args: "generate -c ./.generators/config-go.yml -o ./go/integrations"
 
       # Commit all changes
       - name: Commit & Push changes
-        if:  steps.version.outputs.version  != steps.remote_version.outputs.version
         uses: actions-js/push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
