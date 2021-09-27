@@ -1,10 +1,9 @@
 generatorName: python
 inputSpec: https://integrations-api.klarity.nordcloudapp.com/docs/api.yml
 gitUserId: nordcloud
-gitRepoId: klarity-integrations-sdk/python/integrations
+gitRepoId: klarity-integrations-sdk
 projectName: integrations
 httpUserAgent: klarity-integrations-client/python
 additionalProperties:
   disallowAdditionalPropertiesIfNotPresent: false
   packageName: klarity_integrations
-
