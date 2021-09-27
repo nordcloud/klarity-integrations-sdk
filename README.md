@@ -15,3 +15,11 @@ you can import it with:
 go get github.com/nordcloud/klarity-integrations-sdk/go/integrations
 ```
 
+## Python
+[python/integrations](./python/integrations) directory contains SDK for the Python programming language that allows to connect with Klarity Integrations API
+
+you can import it with:
+
+```bash
+pip install git+https://github.com/nordcloud/klarity-integrations-sdk/python/integrations.git
+```
