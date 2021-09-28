@@ -50,6 +50,10 @@ jobs:
         with:
           args: "generate -c ./.generators/config-python.yml -o ./python/integrations"
 
+      # Update Python client README.md
+      - name: Add subdirectory to Python README.md git url
+        run: sed -i 's/klarity-integrations-sdk.git/klarity-integrations-sdk.git#subdirectory=python\/integrations/g' python/integrations/README.md
+
       # Commit all changes
       - name: Commit & Push changes
         uses: actions-js/push@master
