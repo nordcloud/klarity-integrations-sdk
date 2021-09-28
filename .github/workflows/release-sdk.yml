@@ -24,8 +24,8 @@ jobs:
         id: version
         run: echo "::set-output name=version::$(grep "version:" ./go/integrations/api/openapi.yaml  | awk -F':' '{print $2}' | sed 's/[",]//g' | tr -d '[[:space:]]')"
 
-      # Release SDK if there are any new commits since last tag
-      - name: Release SDK
+      # Release GO SDK if there are any new commits since last tag
+      - name: Release GO SDK
         id: release-sdk
         uses: actions/create-release@latest
         env:
@@ -33,5 +33,17 @@ jobs:
         with:
           tag_name: go/integrations/v${{ steps.version.outputs.version }}
           release_name: GO v${{ steps.version.outputs.version }}
+          draft: false
+          prerelease: false
+
+     # Release Python SDK if there are any new commits since last tag
+      - name: Release GO SDK
+        id: release-sdk
+        uses: actions/create-release@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: python/integrations/v${{ steps.version.outputs.version }}
+          release_name: Python v${{ steps.version.outputs.version }}
           draft: false
           prerelease: false
