@@ -18,8 +18,16 @@ go get github.com/nordcloud/klarity-integrations-sdk/go/integrations
 ## Python
 [python/integrations](./python/integrations) directory contains SDK for the Python programming language that allows to connect with Klarity Integrations API
 
-you can import it with:
+you can import it using:
+
+- pip:
 
 ```bash
-pip install git+https://github.com/nordcloud/klarity-integrations-sdk/python/integrations.git
+pip install git+https://github.com/nordcloud/klarity-integrations-sdk.git#subdirectory=python/integrations
+```
+
+- pipenv
+
+```bash
+pipenv install "git+https://github.com/nordcloud/klarity-integrations-sdk.git#subdirectory=python/integrations&egg=integrations"
 ```
