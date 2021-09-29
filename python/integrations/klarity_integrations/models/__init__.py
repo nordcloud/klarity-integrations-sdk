@@ -10,6 +10,8 @@
 # sys.setrecursionlimit(n)
 
 from klarity_integrations.model.accepted_response_body import AcceptedResponseBody
+from klarity_integrations.model.cost_element import CostElement
+from klarity_integrations.model.costs import Costs
 from klarity_integrations.model.error_response import ErrorResponse
 from klarity_integrations.model.estate_records_request_body import EstateRecordsRequestBody
 from klarity_integrations.model.estate_records_request_body_records import EstateRecordsRequestBodyRecords

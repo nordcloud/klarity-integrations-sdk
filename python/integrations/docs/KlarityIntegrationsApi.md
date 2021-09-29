@@ -12,7 +12,7 @@ Method | HTTP request | Description
 
 Manage Klarity estate records
 
-Create Klarity estate records or update their metadata/tags
+Create Klarity estate records or update their metadata, tags and costs. Metadata, tags and costs updating works as a data upserting. If you will not provide one of them, it will not be updated. 
 
 ### Example
 
@@ -55,6 +55,15 @@ with klarity_integrations.ApiClient(configuration) as api_client:
                 tags={
                     "key": "key_example",
                 },
+                costs=Costs(
+                    currency="currency_example",
+                    values=[
+                        CostElement(
+                            date=dateutil_parser('1970-01-01').date(),
+                            value="4807288800152802179809",
+                        ),
+                    ],
+                ),
             ),
         ],
     ) # EstateRecordsRequestBody |  (optional)

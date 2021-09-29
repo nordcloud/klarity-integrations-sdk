@@ -4,6 +4,8 @@
 .travis.yml
 README.md
 docs/AcceptedResponseBody.md
+docs/CostElement.md
+docs/Costs.md
 docs/ErrorResponse.md
 docs/EstateRecordsRequestBody.md
 docs/EstateRecordsRequestBodyRecords.md
@@ -18,6 +20,8 @@ klarity_integrations/configuration.py
 klarity_integrations/exceptions.py
 klarity_integrations/model/__init__.py
 klarity_integrations/model/accepted_response_body.py
+klarity_integrations/model/cost_element.py
+klarity_integrations/model/costs.py
 klarity_integrations/model/error_response.py
 klarity_integrations/model/estate_records_request_body.py
 klarity_integrations/model/estate_records_request_body_records.py
@@ -30,6 +34,8 @@ setup.py
 test-requirements.txt
 test/__init__.py
 test/test_accepted_response_body.py
+test/test_cost_element.py
+test/test_costs.py
 test/test_error_response.py
 test/test_estate_records_request_body.py
 test/test_estate_records_request_body_records.py

@@ -13,11 +13,13 @@ import sys
 import unittest
 
 import klarity_integrations
-from klarity_integrations.model.error_response import ErrorResponse
+from klarity_integrations.model.cost_element import CostElement
+globals()['CostElement'] = CostElement
+from klarity_integrations.model.costs import Costs
 
 
-class TestErrorResponse(unittest.TestCase):
-    """ErrorResponse unit test stubs"""
+class TestCosts(unittest.TestCase):
+    """Costs unit test stubs"""
 
     def setUp(self):
         pass
@@ -25,10 +27,10 @@ class TestErrorResponse(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testErrorResponse(self):
-        """Test ErrorResponse"""
+    def testCosts(self):
+        """Test Costs"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = ErrorResponse()  # noqa: E501
+        # model = Costs()  # noqa: E501
         pass
 
 
