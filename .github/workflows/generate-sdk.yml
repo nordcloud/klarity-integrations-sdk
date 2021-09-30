@@ -30,15 +30,29 @@ jobs:
         if: steps.version.outputs.version == steps.remote_version.outputs.version
         run: echo "API version did not change, there is no need to build SDK" && exit 1
 
-      # Clear directory to avoid having unused files after generate sdk
-      - name: Remove File
+      # Clear directory to avoid having unused files after generate GO sdk
+      - name: Remove Go Files
         run: rm -rf go/integrations
 
-      # Generate a client package
-      - name: OpenAPI Generator Action
+      # Generate a GO client package
+      - name: OpenAPI Generator GO Action
         uses: kpurdon/openapi-generator-action@v0.0.3
         with:
           args: "generate -c ./.generators/config-go.yml -o ./go/integrations"
+
+      # Clear directory to avoid having unused files after generate Python sdk
+      - name: Remove Python Files
+        run: rm -rf python/integrations
+
+      # Generate a Python client package
+      - name: OpenAPI Generator Python Action
+        uses: kpurdon/openapi-generator-action@v0.0.3
+        with:
+          args: "generate -c ./.generators/config-python.yml -o ./python/integrations"
+
+      # Update Python client README.md
+      - name: Add subdirectory to Python README.md git url
+        run: sed -i 's/klarity-integrations-sdk.git/klarity-integrations-sdk.git#subdirectory=python\/integrations/g' python/integrations/README.md
 
       # Commit all changes
       - name: Commit & Push changes
