@@ -26,7 +26,7 @@ jobs:
 
       # Release GO SDK if there are any new commits since last tag
       - name: Release GO SDK
-        id: release-sdk
+        id: release-go-sdk
         uses: actions/create-release@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -38,7 +38,7 @@ jobs:
 
      # Release Python SDK if there are any new commits since last tag
       - name: Release GO SDK
-        id: release-sdk
+        id: release-python-sdk
         uses: actions/create-release@latest
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
