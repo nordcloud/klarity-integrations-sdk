@@ -4,11 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Id** | **string** | Internal ID of a resource | 
-**Name** | Pointer to **string** | Friendly name of a resource (id will be used, if not provided) | [optional] 
-**Type** | **string** | Type of a resource (resourceType/extension) can contain just type, eg &#x60;jira&#x60; or with subtypes separated by \&quot;/\&quot; symbol | 
-**Metadata** | Pointer to **map[string]interface{}** | Metadata contains a JSON object with information about the record. Keys of the object can by any string value, excluding the &#x60;tags&#x60; key which is reserved for the tags property. Maximum object size is 1MB.  | [optional] 
-**Tags** | Pointer to **map[string]string** | Tags are key &#x3D;&gt; value representing tags in Klarity. Maximum object size is 1MB. | [optional] 
+**Id** | **string** | Internal ID of a resource. | 
+**Name** | Pointer to **string** | Friendly name of a resource (id will be used, if not provided). | [optional] 
+**Type** | **string** | Type of a resource (resourceType/extension) can contain just type, eg &#x60;jira&#x60; or with subtypes separated by \&quot;/\&quot; symbol. | 
+**Metadata** | Pointer to **map[string]interface{}** | Metadata contains a JSON object with information about the record. Keys of the object can by any string value, excluding the &#x60;tags&#x60; key which is reserved for the tags property. If you want to clear the metadata key, you have to provide it directly in an object with a &#x60;null&#x60; value. Maximum object size is 1MB.  | [optional] 
+**Tags** | Pointer to **map[string]string** | Tags are key &#x3D;&gt; value representing tags in Klarity. If you want to clear the tag key, you have to provide it directly in an object with a &#x60;null&#x60; value. Maximum object size is 1MB.  | [optional] 
+**Costs** | Pointer to [**Costs**](Costs.md) |  | [optional] 
+**ValidThrough** | Pointer to **string** | Determines in which period the resource will be closed. If specified, it has to be in &#x60;YYYY-MM&#x60; format and be at least current period - it can not be past period. If not specified, the record will exist indefinitely. E.g. a resource with &#x60;validThrough&#x60; set to &#x60;2022-05&#x60; will be active till May 2022 and start being inactive in June 2022.  | [optional] 
 
 ## Methods
 
@@ -143,6 +145,56 @@ SetTags sets Tags field to given value.
 `func (o *EstateRecordsRequestBodyRecords) HasTags() bool`
 
 HasTags returns a boolean if a field has been set.
+
+### GetCosts
+
+`func (o *EstateRecordsRequestBodyRecords) GetCosts() Costs`
+
+GetCosts returns the Costs field if non-nil, zero value otherwise.
+
+### GetCostsOk
+
+`func (o *EstateRecordsRequestBodyRecords) GetCostsOk() (*Costs, bool)`
+
+GetCostsOk returns a tuple with the Costs field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetCosts
+
+`func (o *EstateRecordsRequestBodyRecords) SetCosts(v Costs)`
+
+SetCosts sets Costs field to given value.
+
+### HasCosts
+
+`func (o *EstateRecordsRequestBodyRecords) HasCosts() bool`
+
+HasCosts returns a boolean if a field has been set.
+
+### GetValidThrough
+
+`func (o *EstateRecordsRequestBodyRecords) GetValidThrough() string`
+
+GetValidThrough returns the ValidThrough field if non-nil, zero value otherwise.
+
+### GetValidThroughOk
+
+`func (o *EstateRecordsRequestBodyRecords) GetValidThroughOk() (*string, bool)`
+
+GetValidThroughOk returns a tuple with the ValidThrough field if it's non-nil, zero value otherwise
+and a boolean to check if the value has been set.
+
+### SetValidThrough
+
+`func (o *EstateRecordsRequestBodyRecords) SetValidThrough(v string)`
+
+SetValidThrough sets ValidThrough field to given value.
+
+### HasValidThrough
+
+`func (o *EstateRecordsRequestBodyRecords) HasValidThrough() bool`
+
+HasValidThrough returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

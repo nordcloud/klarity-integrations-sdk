@@ -5,8 +5,8 @@ Costs object contains an array of costs per day and a currency. Only if there is
 ## Properties
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**currency** | **str** | Currency in ISO-4217 format. | [optional] 
-**values** | [**[CostElement]**](CostElement.md) |  | [optional] 
+**currency** | **str** | Currency in ISO-4217 format. | 
+**values** | [**[CostElement]**](CostElement.md) |  | 
 **any string name** | **bool, date, datetime, dict, float, int, list, str, none_type** | any string name can be used but the value must be the correct type | [optional]
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)

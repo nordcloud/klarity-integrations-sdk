@@ -1,7 +1,20 @@
 openapi: 3.0.3
 info:
+  contact:
+    email: products@nordcloud.com
+    name: Klarity Support
+  description: REST API for managing Estate Records using Klarity Integrations. You
+    can enrich your estate by creating new kinds of estate records or extending existing
+    ones. Before making use of the API, you must first register your External Integration
+    in Klarity, which provides you with the required authentication credentials. Then,
+    you use those credentials to obtain a Token that allows you to make authorized
+    calls to Klarity’s REST API for External Integration.
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: https://klarity.nordcloud.com/terms-conditions/
   title: Klarity Integrations
-  version: 0.0.1
+  version: 0.0.2
 servers:
 - description: prod environment
   url: https://integrations-api.klarity.nordcloudapp.com
@@ -12,8 +25,54 @@ tags:
   name: KlarityIntegrations
 paths:
   /v1/estateRecords:
+    delete:
+      description: |
+        In Klarity, to delete an estate record created from an External Integration, provide: either, nid; or, id, type, and name.
+        Records can be deleted in current, previous or all periods.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EstateRecordsDeleteBody'
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: '#/AcceptedResponseBody'
+          description: Status Accepted
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/ErrorResponse'
+          description: Bad request
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/ErrorResponse'
+          description: Unauthorized response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/ErrorResponse'
+          description: Too many requests
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/ErrorResponse'
+          description: Internal server error
+      summary: Delete Klarity estate records
+      tags:
+      - KlarityIntegrations
     post:
-      description: Create Klarity estate records or update their metadata/tags
+      description: |
+        In Klarity, create new estate records, or update the metadata, tags, and costs, in existing estate records.
+        You update metadata, tags, and costs by data-upserting: If you provide a value for a given parameter, the relevant field in the estate record is updated.
+        If you provide no value for a parameter, the given field is not updated in the estate record.
       requestBody:
         content:
           application/json:
@@ -24,31 +83,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/AcceptedResponseBody'
+                $ref: '#/AcceptedResponseBody'
           description: Status Accepted
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/ErrorResponse'
           description: Bad request
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/ErrorResponse'
           description: Unauthorized response
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/ErrorResponse'
           description: Too many requests
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ErrorResponse'
+                $ref: '#/ErrorResponse'
           description: Internal server error
       summary: Manage Klarity estate records
       tags:
@@ -58,60 +117,115 @@ components:
     EstateRecordsRequestBody:
       example:
         records:
-        - metadata:
+        - costs:
+            currency: EUR
+            values:
+            - date: 2021-09-01
+              value: "9.50"
+            - date: 2021-09-02
+              value: "11.50"
+            - date: 2021-09-03
+            - date: 2021-09-30
+              value: "30.55"
+          metadata:
             issuer: Atlassian
             license:
               maxUsers: 10
               bitbucketIncluded: true
               pipelineHours: 100
+          validThrough: validThrough
           name: Jira Subscription 002
           id: js002
           type: jira/subscription/basic
           tags:
             env: dev
             project: exampleProject
-        - metadata:
+        - costs:
+            currency: EUR
+            values:
+            - date: 2021-09-01
+              value: "9.50"
+            - date: 2021-09-02
+              value: "11.50"
+            - date: 2021-09-03
+            - date: 2021-09-30
+              value: "30.55"
+          metadata:
             issuer: Atlassian
             license:
               maxUsers: 10
               bitbucketIncluded: true
               pipelineHours: 100
+          validThrough: validThrough
           name: Jira Subscription 002
           id: js002
           type: jira/subscription/basic
           tags:
             env: dev
             project: exampleProject
-        - metadata:
+        - costs:
+            currency: EUR
+            values:
+            - date: 2021-09-01
+              value: "9.50"
+            - date: 2021-09-02
+              value: "11.50"
+            - date: 2021-09-03
+            - date: 2021-09-30
+              value: "30.55"
+          metadata:
             issuer: Atlassian
             license:
               maxUsers: 10
               bitbucketIncluded: true
               pipelineHours: 100
+          validThrough: validThrough
           name: Jira Subscription 002
           id: js002
           type: jira/subscription/basic
           tags:
             env: dev
             project: exampleProject
-        - metadata:
+        - costs:
+            currency: EUR
+            values:
+            - date: 2021-09-01
+              value: "9.50"
+            - date: 2021-09-02
+              value: "11.50"
+            - date: 2021-09-03
+            - date: 2021-09-30
+              value: "30.55"
+          metadata:
             issuer: Atlassian
             license:
               maxUsers: 10
               bitbucketIncluded: true
               pipelineHours: 100
+          validThrough: validThrough
           name: Jira Subscription 002
           id: js002
           type: jira/subscription/basic
           tags:
             env: dev
             project: exampleProject
-        - metadata:
+        - costs:
+            currency: EUR
+            values:
+            - date: 2021-09-01
+              value: "9.50"
+            - date: 2021-09-02
+              value: "11.50"
+            - date: 2021-09-03
+            - date: 2021-09-30
+              value: "30.55"
+          metadata:
             issuer: Atlassian
             license:
               maxUsers: 10
               bitbucketIncluded: true
               pipelineHours: 100
+          validThrough: validThrough
           name: Jira Subscription 002
           id: js002
           type: jira/subscription/basic
@@ -125,11 +239,105 @@ components:
           maxItems: 1000
           minItems: 1
           type: array
+      required:
+      - records
       type: object
+    Id:
+      description: Internal ID of a resource.
+      example: js002
+      maxLength: 255
+      type: string
+    Name:
+      description: Friendly name of a resource (id will be used, if not provided).
+      example: Jira Subscription 002
+      maxLength: 255
+      type: string
+    Type:
+      description: Type of a resource (resourceType/extension) can contain just type,
+        eg `jira` or with subtypes separated by "/" symbol.
+      example: jira/subscription/basic
+      maxLength: 255
+      type: string
+    Metadata:
+      description: |
+        Metadata contains a JSON object with information about the record.
+        Keys of the object can by any string value, excluding the `tags` key which is reserved for the tags property.
+        If you want to clear the metadata key, you have to provide it directly in an object with a `null` value.
+        Maximum object size is 1MB.
+      example:
+        issuer: Atlassian
+        license:
+          maxUsers: 10
+          bitbucketIncluded: true
+          pipelineHours: 100
+      type: object
+    Tags:
+      additionalProperties:
+        maxLength: 255
+        type: string
+      description: |
+        Tags are key => value representing tags in Klarity.
+        If you want to clear the tag key, you have to provide it directly in an object with a `null` value.
+        Maximum object size is 1MB.
+      example:
+        env: dev
+        project: exampleProject
+      maxProperties: 1000
+      type: object
+    Costs:
+      description: |
+        Costs object contains an array of costs per day and a currency.
+        Only if there is a date passed into an array, then the cost is being added/updated for this date.
+        If you want to clear cost for a given date, you have to `null` directly into an array.
+      example:
+        currency: EUR
+        values:
+        - date: 2021-09-01
+          value: "9.50"
+        - date: 2021-09-02
+          value: "11.50"
+        - date: 2021-09-03
+        - date: 2021-09-30
+          value: "30.55"
+      properties:
+        currency:
+          description: Currency in ISO-4217 format.
+          format: ISO-4217
+          type: string
+        values:
+          items:
+            $ref: '#/components/schemas/CostElement'
+          maxLength: 1000
+          minLength: 1
+          type: array
+      required:
+      - currency
+      - values
+      type: object
+    CostElement:
+      properties:
+        date:
+          description: Date in YYYY-MM-DD format for which cost is charged.
+          format: date
+          type: string
+        value:
+          description: Value of the cost. A dot (`.`) is used as a decimal separator.
+            Use `null` to clear cost for given date.
+          pattern: ^(\d*)(\.\d{1,})?$
+          type: string
+      required:
+      - date
+      type: object
+    ValidThrough:
+      description: |
+        Determines in which period the resource will be closed.
+        If specified, it has to be in `YYYY-MM` format and be at least current period - it can not be past period.
+        If not specified, the record will exist indefinitely.
+        E.g. a resource with `validThrough` set to `2022-05` will be active till May 2022 and start being inactive in June 2022.
+      pattern: ^2\d{3}-(0[1-9]|1[0-2])$
+      type: string
     AcceptedResponseBody:
       description: Response returned when processing of a request ends successfully
-      example:
-        message: Accepted 10 estate records
       properties:
         message:
           example: Accepted 10 estate records
@@ -144,14 +352,74 @@ components:
       required:
       - error
       type: object
+    EstateRecordsDeleteBody:
+      example:
+        records:
+        - ""
+        - ""
+        - ""
+        - ""
+        - ""
+      properties:
+        period:
+          $ref: '#/components/schemas/PeriodEnum'
+        records:
+          items:
+            anyOf:
+            - properties:
+                nid:
+                  $ref: '#/components/schemas/Nid'
+              required:
+              - nid
+              type: object
+            - properties:
+                id:
+                  $ref: '#/components/schemas/Id'
+                name:
+                  $ref: '#/components/schemas/Name'
+                type:
+                  $ref: '#/components/schemas/Type'
+              required:
+              - id
+              - type
+              type: object
+          maxItems: 1000
+          minItems: 1
+          type: array
+      required:
+      - period
+      - records
+      type: object
+    PeriodEnum:
+      description: Enum type of billing periods available in External Integrations.
+      enum:
+      - current
+      - previous
+      - all
+      type: string
+    Nid:
+      description: Nordcloud ID of a resource in Klarity.
+      format: uuid
+      type: string
     EstateRecordsRequestBody_records:
       example:
+        costs:
+          currency: EUR
+          values:
+          - date: 2021-09-01
+            value: "9.50"
+          - date: 2021-09-02
+            value: "11.50"
+          - date: 2021-09-03
+          - date: 2021-09-30
+            value: "30.55"
         metadata:
           issuer: Atlassian
           license:
             maxUsers: 10
             bitbucketIncluded: true
             pipelineHours: 100
+        validThrough: validThrough
         name: Jira Subscription 002
         id: js002
         type: jira/subscription/basic
@@ -160,18 +428,18 @@ components:
           project: exampleProject
       properties:
         id:
-          description: Internal ID of a resource
+          description: Internal ID of a resource.
           example: js002
           maxLength: 255
           type: string
         name:
-          description: Friendly name of a resource (id will be used, if not provided)
+          description: Friendly name of a resource (id will be used, if not provided).
           example: Jira Subscription 002
           maxLength: 255
           type: string
         type:
           description: Type of a resource (resourceType/extension) can contain just
-            type, eg `jira` or with subtypes separated by "/" symbol
+            type, eg `jira` or with subtypes separated by "/" symbol.
           example: jira/subscription/basic
           maxLength: 255
           type: string
@@ -179,6 +447,7 @@ components:
           description: |
             Metadata contains a JSON object with information about the record.
             Keys of the object can by any string value, excluding the `tags` key which is reserved for the tags property.
+            If you want to clear the metadata key, you have to provide it directly in an object with a `null` value.
             Maximum object size is 1MB.
           example:
             issuer: Atlassian
@@ -191,13 +460,25 @@ components:
           additionalProperties:
             maxLength: 255
             type: string
-          description: Tags are key => value representing tags in Klarity. Maximum
-            object size is 1MB.
+          description: |
+            Tags are key => value representing tags in Klarity.
+            If you want to clear the tag key, you have to provide it directly in an object with a `null` value.
+            Maximum object size is 1MB.
           example:
             env: dev
             project: exampleProject
           maxProperties: 1000
           type: object
+        costs:
+          $ref: '#/components/schemas/Costs'
+        validThrough:
+          description: |
+            Determines in which period the resource will be closed.
+            If specified, it has to be in `YYYY-MM` format and be at least current period - it can not be past period.
+            If not specified, the record will exist indefinitely.
+            E.g. a resource with `validThrough` set to `2022-05` will be active till May 2022 and start being inactive in June 2022.
+          pattern: ^2\d{3}-(0[1-9]|1[0-2])$
+          type: string
       required:
       - id
       - type

@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Records** | Pointer to [**[]EstateRecordsRequestBodyRecords**](EstateRecordsRequestBodyRecords.md) |  | [optional] 
+**Records** | [**[]EstateRecordsRequestBodyRecords**](EstateRecordsRequestBodyRecords.md) |  | 
 
 ## Methods
 
 ### NewEstateRecordsRequestBody
 
-`func NewEstateRecordsRequestBody() *EstateRecordsRequestBody`
+`func NewEstateRecordsRequestBody(records []EstateRecordsRequestBodyRecords, ) *EstateRecordsRequestBody`
 
 NewEstateRecordsRequestBody instantiates a new EstateRecordsRequestBody object
 This constructor will assign default values to properties that have it defined,
@@ -44,11 +44,6 @@ and a boolean to check if the value has been set.
 
 SetRecords sets Records field to given value.
 
-### HasRecords
-
-`func (o *EstateRecordsRequestBody) HasRecords() bool`
-
-HasRecords returns a boolean if a field has been set.
 
 
 [[Back to Model list]](../README.md#documentation-for-models) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to README]](../README.md)
