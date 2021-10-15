@@ -13,23 +13,17 @@ import sys
 import unittest
 
 import klarity_integrations
-from klarity_integrations.model.costs import Costs
 from klarity_integrations.model.id import Id
 from klarity_integrations.model.name import Name
-from klarity_integrations.model.tags import Tags
 from klarity_integrations.model.type import Type
-from klarity_integrations.model.valid_through import ValidThrough
-globals()['Costs'] = Costs
 globals()['Id'] = Id
 globals()['Name'] = Name
-globals()['Tags'] = Tags
 globals()['Type'] = Type
-globals()['ValidThrough'] = ValidThrough
-from klarity_integrations.model.estate_records_request_body_records import EstateRecordsRequestBodyRecords
+from klarity_integrations.model.estate_records_delete_body_records import EstateRecordsDeleteBodyRecords
 
 
-class TestEstateRecordsRequestBodyRecords(unittest.TestCase):
-    """EstateRecordsRequestBodyRecords unit test stubs"""
+class TestEstateRecordsDeleteBodyRecords(unittest.TestCase):
+    """EstateRecordsDeleteBodyRecords unit test stubs"""
 
     def setUp(self):
         pass
@@ -37,10 +31,10 @@ class TestEstateRecordsRequestBodyRecords(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def testEstateRecordsRequestBodyRecords(self):
-        """Test EstateRecordsRequestBodyRecords"""
+    def testEstateRecordsDeleteBodyRecords(self):
+        """Test EstateRecordsDeleteBodyRecords"""
         # FIXME: construct object with mandatory attributes with example values
-        # model = EstateRecordsRequestBodyRecords()  # noqa: E501
+        # model = EstateRecordsDeleteBodyRecords()  # noqa: E501
         pass
 
 

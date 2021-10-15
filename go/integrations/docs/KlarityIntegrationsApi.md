@@ -11,7 +11,7 @@ Method | HTTP request | Description
 
 ## V1EstateRecordsDelete
 
-> Object V1EstateRecordsDelete(ctx).EstateRecordsDeleteBody(estateRecordsDeleteBody).Execute()
+> AcceptedResponseBody V1EstateRecordsDelete(ctx).EstateRecordsDeleteBody(estateRecordsDeleteBody).Execute()
 
 Delete Klarity estate records
 
@@ -30,7 +30,7 @@ import (
 )
 
 func main() {
-    estateRecordsDeleteBody := *openapiclient.NewEstateRecordsDeleteBody(openapiclient.PeriodEnum("current"), []AnyOfobjectobject{"TODO"}) // EstateRecordsDeleteBody |  (optional)
+    estateRecordsDeleteBody := *openapiclient.NewEstateRecordsDeleteBody(openapiclient.PeriodEnum("current"), []openapiclient.EstateRecordsDeleteBodyRecords{*openapiclient.NewEstateRecordsDeleteBodyRecords()}) // EstateRecordsDeleteBody |  (optional)
 
     configuration := openapiclient.NewConfiguration()
     api_client := openapiclient.NewAPIClient(configuration)
@@ -39,7 +39,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `KlarityIntegrationsApi.V1EstateRecordsDelete``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `V1EstateRecordsDelete`: Object
+    // response from `V1EstateRecordsDelete`: AcceptedResponseBody
     fmt.Fprintf(os.Stdout, "Response from `KlarityIntegrationsApi.V1EstateRecordsDelete`: %v\n", resp)
 }
 ```
@@ -59,7 +59,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**AcceptedResponseBody**](AcceptedResponseBody.md)
 
 ### Authorization
 
@@ -77,7 +77,7 @@ Name | Type | Description  | Notes
 
 ## V1EstateRecordsPost
 
-> Object V1EstateRecordsPost(ctx).EstateRecordsRequestBody(estateRecordsRequestBody).Execute()
+> AcceptedResponseBody V1EstateRecordsPost(ctx).EstateRecordsRequestBody(estateRecordsRequestBody).Execute()
 
 Manage Klarity estate records
 
@@ -105,7 +105,7 @@ func main() {
         fmt.Fprintf(os.Stderr, "Error when calling `KlarityIntegrationsApi.V1EstateRecordsPost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
     }
-    // response from `V1EstateRecordsPost`: Object
+    // response from `V1EstateRecordsPost`: AcceptedResponseBody
     fmt.Fprintf(os.Stdout, "Response from `KlarityIntegrationsApi.V1EstateRecordsPost`: %v\n", resp)
 }
 ```
@@ -125,7 +125,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**Object**](Object.md)
+[**AcceptedResponseBody**](AcceptedResponseBody.md)
 
 ### Authorization
 

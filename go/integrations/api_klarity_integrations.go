@@ -3,7 +3,7 @@ Klarity Integrations
 
 REST API for managing Estate Records using Klarity Integrations. You can enrich your estate by creating new kinds of estate records or extending existing ones. Before making use of the API, you must first register your External Integration in Klarity, which provides you with the required authentication credentials. Then, you use those credentials to obtain a Token that allows you to make authorized calls to Klarity’s REST API for External Integration.
 
-API version: 0.0.2
+API version: 0.0.3
 Contact: products@nordcloud.com
 */
 
@@ -39,8 +39,8 @@ Records can be deleted in current, previous or all periods.
 	V1EstateRecordsDelete(ctx _context.Context) ApiV1EstateRecordsDeleteRequest
 
 	// V1EstateRecordsDeleteExecute executes the request
-	//  @return Object
-	V1EstateRecordsDeleteExecute(r ApiV1EstateRecordsDeleteRequest) (Object, *_nethttp.Response, error)
+	//  @return AcceptedResponseBody
+	V1EstateRecordsDeleteExecute(r ApiV1EstateRecordsDeleteRequest) (AcceptedResponseBody, *_nethttp.Response, error)
 
 	/*
 	V1EstateRecordsPost Manage Klarity estate records
@@ -56,8 +56,8 @@ If you provide no value for a parameter, the given field is not updated in the e
 	V1EstateRecordsPost(ctx _context.Context) ApiV1EstateRecordsPostRequest
 
 	// V1EstateRecordsPostExecute executes the request
-	//  @return Object
-	V1EstateRecordsPostExecute(r ApiV1EstateRecordsPostRequest) (Object, *_nethttp.Response, error)
+	//  @return AcceptedResponseBody
+	V1EstateRecordsPostExecute(r ApiV1EstateRecordsPostRequest) (AcceptedResponseBody, *_nethttp.Response, error)
 }
 
 // KlarityIntegrationsApiService KlarityIntegrationsApi service
@@ -74,7 +74,7 @@ func (r ApiV1EstateRecordsDeleteRequest) EstateRecordsDeleteBody(estateRecordsDe
 	return r
 }
 
-func (r ApiV1EstateRecordsDeleteRequest) Execute() (Object, *_nethttp.Response, error) {
+func (r ApiV1EstateRecordsDeleteRequest) Execute() (AcceptedResponseBody, *_nethttp.Response, error) {
 	return r.ApiService.V1EstateRecordsDeleteExecute(r)
 }
 
@@ -96,15 +96,15 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsDelete(ctx _context.Conte
 }
 
 // Execute executes the request
-//  @return Object
-func (a *KlarityIntegrationsApiService) V1EstateRecordsDeleteExecute(r ApiV1EstateRecordsDeleteRequest) (Object, *_nethttp.Response, error) {
+//  @return AcceptedResponseBody
+func (a *KlarityIntegrationsApiService) V1EstateRecordsDeleteExecute(r ApiV1EstateRecordsDeleteRequest) (AcceptedResponseBody, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodDelete
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue  Object
+		localVarReturnValue  AcceptedResponseBody
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "KlarityIntegrationsApiService.V1EstateRecordsDelete")
@@ -160,7 +160,7 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsDeleteExecute(r ApiV1Esta
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v Object
+			var v ErrorResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -170,7 +170,7 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsDeleteExecute(r ApiV1Esta
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
-			var v Object
+			var v ErrorResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -180,7 +180,7 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsDeleteExecute(r ApiV1Esta
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 429 {
-			var v Object
+			var v ErrorResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -190,7 +190,7 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsDeleteExecute(r ApiV1Esta
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
-			var v Object
+			var v ErrorResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -224,7 +224,7 @@ func (r ApiV1EstateRecordsPostRequest) EstateRecordsRequestBody(estateRecordsReq
 	return r
 }
 
-func (r ApiV1EstateRecordsPostRequest) Execute() (Object, *_nethttp.Response, error) {
+func (r ApiV1EstateRecordsPostRequest) Execute() (AcceptedResponseBody, *_nethttp.Response, error) {
 	return r.ApiService.V1EstateRecordsPostExecute(r)
 }
 
@@ -247,15 +247,15 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsPost(ctx _context.Context
 }
 
 // Execute executes the request
-//  @return Object
-func (a *KlarityIntegrationsApiService) V1EstateRecordsPostExecute(r ApiV1EstateRecordsPostRequest) (Object, *_nethttp.Response, error) {
+//  @return AcceptedResponseBody
+func (a *KlarityIntegrationsApiService) V1EstateRecordsPostExecute(r ApiV1EstateRecordsPostRequest) (AcceptedResponseBody, *_nethttp.Response, error) {
 	var (
 		localVarHTTPMethod   = _nethttp.MethodPost
 		localVarPostBody     interface{}
 		localVarFormFileName string
 		localVarFileName     string
 		localVarFileBytes    []byte
-		localVarReturnValue  Object
+		localVarReturnValue  AcceptedResponseBody
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "KlarityIntegrationsApiService.V1EstateRecordsPost")
@@ -311,7 +311,7 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsPostExecute(r ApiV1Estate
 			error: localVarHTTPResponse.Status,
 		}
 		if localVarHTTPResponse.StatusCode == 400 {
-			var v Object
+			var v ErrorResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -321,7 +321,7 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsPostExecute(r ApiV1Estate
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
-			var v Object
+			var v ErrorResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -331,7 +331,7 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsPostExecute(r ApiV1Estate
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 429 {
-			var v Object
+			var v ErrorResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()
@@ -341,7 +341,7 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsPostExecute(r ApiV1Estate
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
-			var v Object
+			var v ErrorResponse
 			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 			if err != nil {
 				newErr.error = err.Error()

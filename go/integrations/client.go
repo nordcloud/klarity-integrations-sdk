@@ -3,7 +3,7 @@ Klarity Integrations
 
 REST API for managing Estate Records using Klarity Integrations. You can enrich your estate by creating new kinds of estate records or extending existing ones. Before making use of the API, you must first register your External Integration in Klarity, which provides you with the required authentication credentials. Then, you use those credentials to obtain a Token that allows you to make authorized calls to Klarity’s REST API for External Integration.
 
-API version: 0.0.2
+API version: 0.0.3
 Contact: products@nordcloud.com
 */
 
@@ -42,7 +42,7 @@ var (
 	xmlCheck  = regexp.MustCompile(`(?i:(?:application|text)/xml)`)
 )
 
-// APIClient manages communication with the Klarity Integrations API v0.0.2
+// APIClient manages communication with the Klarity Integrations API v0.0.3
 // In most cases there should be only one, shared, APIClient.
 type APIClient struct {
 	cfg    *Configuration
@@ -367,6 +367,9 @@ func (c *APIClient) decode(v interface{}, b []byte, contentType string) (err err
 			return
 		}
 		_, err = (*f).Write(b)
+		if err != nil {
+			return
+		}
 		_, err = (*f).Seek(0, io.SeekStart)
 		return
 	}

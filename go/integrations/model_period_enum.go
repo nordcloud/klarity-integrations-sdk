@@ -3,7 +3,7 @@ Klarity Integrations
 
 REST API for managing Estate Records using Klarity Integrations. You can enrich your estate by creating new kinds of estate records or extending existing ones. Before making use of the API, you must first register your External Integration in Klarity, which provides you with the required authentication credentials. Then, you use those credentials to obtain a Token that allows you to make authorized calls to Klarity’s REST API for External Integration.
 
-API version: 0.0.2
+API version: 0.0.3
 Contact: products@nordcloud.com
 */
 
@@ -26,7 +26,8 @@ const (
 	ALL PeriodEnum = "all"
 )
 
-var allowedPeriodEnumEnumValues = []PeriodEnum{
+// All allowed values of PeriodEnum enum
+var AllowedPeriodEnumEnumValues = []PeriodEnum{
 	"current",
 	"previous",
 	"all",
@@ -39,7 +40,7 @@ func (v *PeriodEnum) UnmarshalJSON(src []byte) error {
 		return err
 	}
 	enumTypeValue := PeriodEnum(value)
-	for _, existing := range allowedPeriodEnumEnumValues {
+	for _, existing := range AllowedPeriodEnumEnumValues {
 		if existing == enumTypeValue {
 			*v = enumTypeValue
 			return nil
@@ -56,13 +57,13 @@ func NewPeriodEnumFromValue(v string) (*PeriodEnum, error) {
 	if ev.IsValid() {
 		return &ev, nil
 	} else {
-		return nil, fmt.Errorf("invalid value '%v' for PeriodEnum: valid values are %v", v, allowedPeriodEnumEnumValues)
+		return nil, fmt.Errorf("invalid value '%v' for PeriodEnum: valid values are %v", v, AllowedPeriodEnumEnumValues)
 	}
 }
 
 // IsValid return true if the value is valid for the enum, false otherwise
 func (v PeriodEnum) IsValid() bool {
-	for _, existing := range allowedPeriodEnumEnumValues {
+	for _, existing := range AllowedPeriodEnumEnumValues {
 		if existing == v {
 			return true
 		}

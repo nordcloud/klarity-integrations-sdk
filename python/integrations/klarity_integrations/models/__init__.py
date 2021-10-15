@@ -14,6 +14,7 @@ from klarity_integrations.model.cost_element import CostElement
 from klarity_integrations.model.costs import Costs
 from klarity_integrations.model.error_response import ErrorResponse
 from klarity_integrations.model.estate_records_delete_body import EstateRecordsDeleteBody
+from klarity_integrations.model.estate_records_delete_body_records import EstateRecordsDeleteBodyRecords
 from klarity_integrations.model.estate_records_request_body import EstateRecordsRequestBody
 from klarity_integrations.model.estate_records_request_body_records import EstateRecordsRequestBodyRecords
 from klarity_integrations.model.id import Id

@@ -14,7 +14,7 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: https://klarity.nordcloud.com/terms-conditions/
   title: Klarity Integrations
-  version: 0.0.2
+  version: 0.0.3
 servers:
 - description: prod environment
   url: https://integrations-api.klarity.nordcloudapp.com
@@ -39,31 +39,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/AcceptedResponseBody'
+                $ref: '#/components/schemas/AcceptedResponseBody'
           description: Status Accepted
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Bad request
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Unauthorized response
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Too many requests
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Internal server error
       summary: Delete Klarity estate records
       tags:
@@ -83,31 +83,31 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/AcceptedResponseBody'
+                $ref: '#/components/schemas/AcceptedResponseBody'
           description: Status Accepted
         "400":
           content:
             application/json:
               schema:
-                $ref: '#/ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Bad request
         "401":
           content:
             application/json:
               schema:
-                $ref: '#/ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Unauthorized response
         "429":
           content:
             application/json:
               schema:
-                $ref: '#/ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Too many requests
         "500":
           content:
             application/json:
               schema:
-                $ref: '#/ErrorResponse'
+                $ref: '#/components/schemas/ErrorResponse'
           description: Internal server error
       summary: Manage Klarity estate records
       tags:
@@ -338,6 +338,8 @@ components:
       type: string
     AcceptedResponseBody:
       description: Response returned when processing of a request ends successfully
+      example:
+        message: Accepted 10 estate records
       properties:
         message:
           example: Accepted 10 estate records
@@ -355,34 +357,32 @@ components:
     EstateRecordsDeleteBody:
       example:
         records:
-        - ""
-        - ""
-        - ""
-        - ""
-        - ""
+        - nid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          name: Jira Subscription 002
+          id: js002
+          type: jira/subscription/basic
+        - nid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          name: Jira Subscription 002
+          id: js002
+          type: jira/subscription/basic
+        - nid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          name: Jira Subscription 002
+          id: js002
+          type: jira/subscription/basic
+        - nid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          name: Jira Subscription 002
+          id: js002
+          type: jira/subscription/basic
+        - nid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+          name: Jira Subscription 002
+          id: js002
+          type: jira/subscription/basic
       properties:
         period:
           $ref: '#/components/schemas/PeriodEnum'
         records:
           items:
-            anyOf:
-            - properties:
-                nid:
-                  $ref: '#/components/schemas/Nid'
-              required:
-              - nid
-              type: object
-            - properties:
-                id:
-                  $ref: '#/components/schemas/Id'
-                name:
-                  $ref: '#/components/schemas/Name'
-                type:
-                  $ref: '#/components/schemas/Type'
-              required:
-              - id
-              - type
-              type: object
+            $ref: '#/components/schemas/EstateRecordsDeleteBody_records'
           maxItems: 1000
           minItems: 1
           type: array
@@ -482,6 +482,34 @@ components:
       required:
       - id
       - type
+      type: object
+    EstateRecordsDeleteBody_records:
+      example:
+        nid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        name: Jira Subscription 002
+        id: js002
+        type: jira/subscription/basic
+      properties:
+        nid:
+          description: Nordcloud ID of a resource in Klarity.
+          format: uuid
+          type: string
+        id:
+          description: Internal ID of a resource.
+          example: js002
+          maxLength: 255
+          type: string
+        name:
+          description: Friendly name of a resource (id will be used, if not provided).
+          example: Jira Subscription 002
+          maxLength: 255
+          type: string
+        type:
+          description: Type of a resource (resourceType/extension) can contain just
+            type, eg `jira` or with subtypes separated by "/" symbol.
+          example: jira/subscription/basic
+          maxLength: 255
+          type: string
       type: object
   securitySchemes:
     bearerAuth:

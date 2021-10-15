@@ -3,7 +3,7 @@ Klarity Integrations
 
 REST API for managing Estate Records using Klarity Integrations. You can enrich your estate by creating new kinds of estate records or extending existing ones. Before making use of the API, you must first register your External Integration in Klarity, which provides you with the required authentication credentials. Then, you use those credentials to obtain a Token that allows you to make authorized calls to Klarity’s REST API for External Integration.
 
-API version: 0.0.2
+API version: 0.0.3
 Contact: products@nordcloud.com
 */
 
@@ -18,7 +18,7 @@ import (
 // EstateRecordsDeleteBody struct for EstateRecordsDeleteBody
 type EstateRecordsDeleteBody struct {
 	Period PeriodEnum `json:"period"`
-	Records []AnyOfobjectobject `json:"records"`
+	Records []EstateRecordsDeleteBodyRecords `json:"records"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -28,7 +28,7 @@ type _EstateRecordsDeleteBody EstateRecordsDeleteBody
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEstateRecordsDeleteBody(period PeriodEnum, records []AnyOfobjectobject) *EstateRecordsDeleteBody {
+func NewEstateRecordsDeleteBody(period PeriodEnum, records []EstateRecordsDeleteBodyRecords) *EstateRecordsDeleteBody {
 	this := EstateRecordsDeleteBody{}
 	this.Period = period
 	this.Records = records
@@ -68,9 +68,9 @@ func (o *EstateRecordsDeleteBody) SetPeriod(v PeriodEnum) {
 }
 
 // GetRecords returns the Records field value
-func (o *EstateRecordsDeleteBody) GetRecords() []AnyOfobjectobject {
+func (o *EstateRecordsDeleteBody) GetRecords() []EstateRecordsDeleteBodyRecords {
 	if o == nil {
-		var ret []AnyOfobjectobject
+		var ret []EstateRecordsDeleteBodyRecords
 		return ret
 	}
 
@@ -79,7 +79,7 @@ func (o *EstateRecordsDeleteBody) GetRecords() []AnyOfobjectobject {
 
 // GetRecordsOk returns a tuple with the Records field value
 // and a boolean to check if the value has been set.
-func (o *EstateRecordsDeleteBody) GetRecordsOk() (*[]AnyOfobjectobject, bool) {
+func (o *EstateRecordsDeleteBody) GetRecordsOk() (*[]EstateRecordsDeleteBodyRecords, bool) {
 	if o == nil  {
 		return nil, false
 	}
@@ -87,7 +87,7 @@ func (o *EstateRecordsDeleteBody) GetRecordsOk() (*[]AnyOfobjectobject, bool) {
 }
 
 // SetRecords sets field value
-func (o *EstateRecordsDeleteBody) SetRecords(v []AnyOfobjectobject) {
+func (o *EstateRecordsDeleteBody) SetRecords(v []EstateRecordsDeleteBodyRecords) {
 	o.Records = v
 }
 

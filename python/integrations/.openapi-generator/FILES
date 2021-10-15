@@ -8,6 +8,7 @@ docs/CostElement.md
 docs/Costs.md
 docs/ErrorResponse.md
 docs/EstateRecordsDeleteBody.md
+docs/EstateRecordsDeleteBodyRecords.md
 docs/EstateRecordsRequestBody.md
 docs/EstateRecordsRequestBodyRecords.md
 docs/Id.md
@@ -31,6 +32,7 @@ klarity_integrations/model/cost_element.py
 klarity_integrations/model/costs.py
 klarity_integrations/model/error_response.py
 klarity_integrations/model/estate_records_delete_body.py
+klarity_integrations/model/estate_records_delete_body_records.py
 klarity_integrations/model/estate_records_request_body.py
 klarity_integrations/model/estate_records_request_body_records.py
 klarity_integrations/model/id.py
@@ -52,6 +54,7 @@ test/test_cost_element.py
 test/test_costs.py
 test/test_error_response.py
 test/test_estate_records_delete_body.py
+test/test_estate_records_delete_body_records.py
 test/test_estate_records_request_body.py
 test/test_estate_records_request_body_records.py
 test/test_id.py

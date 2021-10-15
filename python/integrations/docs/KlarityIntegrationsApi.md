@@ -9,7 +9,7 @@ Method | HTTP request | Description
 
 
 # **v1_estate_records_delete**
-> ERRORUNKNOWN v1_estate_records_delete()
+> AcceptedResponseBody v1_estate_records_delete()
 
 Delete Klarity estate records
 
@@ -18,12 +18,14 @@ In Klarity, to delete an estate record created from an External Integration, pro
 ### Example
 
 * Bearer (JWT) Authentication (bearerAuth):
+
 ```python
 import time
 import klarity_integrations
 from klarity_integrations.api import klarity_integrations_api
+from klarity_integrations.model.error_response import ErrorResponse
 from klarity_integrations.model.estate_records_delete_body import EstateRecordsDeleteBody
-from klarity_integrations.model.errorunknown import ERRORUNKNOWN
+from klarity_integrations.model.accepted_response_body import AcceptedResponseBody
 from pprint import pprint
 # Defining the host is optional and defaults to https://integrations-api.klarity.nordcloudapp.com
 # See configuration.py for a list of all supported configuration parameters.
@@ -48,7 +50,12 @@ with klarity_integrations.ApiClient(configuration) as api_client:
     estate_records_delete_body = EstateRecordsDeleteBody(
         period=PeriodEnum("current"),
         records=[
-            ,
+            EstateRecordsDeleteBodyRecords(
+                nid="nid_example",
+                id=Id("js002"),
+                name=Name("Jira Subscription 002"),
+                type=Type("jira/subscription/basic"),
+            ),
         ],
     ) # EstateRecordsDeleteBody |  (optional)
 
@@ -71,7 +78,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ERRORUNKNOWN**](ERRORUNKNOWN.md)
+[**AcceptedResponseBody**](AcceptedResponseBody.md)
 
 ### Authorization
 
@@ -84,6 +91,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **202** | Status Accepted |  -  |
@@ -95,7 +103,7 @@ Name | Type | Description  | Notes
 [[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints) [[Back to Model list]](../README.md#documentation-for-models) [[Back to README]](../README.md)
 
 # **v1_estate_records_post**
-> ERRORUNKNOWN v1_estate_records_post()
+> AcceptedResponseBody v1_estate_records_post()
 
 Manage Klarity estate records
 
@@ -104,12 +112,14 @@ In Klarity, create new estate records, or update the metadata, tags, and costs, 
 ### Example
 
 * Bearer (JWT) Authentication (bearerAuth):
+
 ```python
 import time
 import klarity_integrations
 from klarity_integrations.api import klarity_integrations_api
 from klarity_integrations.model.estate_records_request_body import EstateRecordsRequestBody
-from klarity_integrations.model.errorunknown import ERRORUNKNOWN
+from klarity_integrations.model.error_response import ErrorResponse
+from klarity_integrations.model.accepted_response_body import AcceptedResponseBody
 from pprint import pprint
 # Defining the host is optional and defaults to https://integrations-api.klarity.nordcloudapp.com
 # See configuration.py for a list of all supported configuration parameters.
@@ -174,7 +184,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-[**ERRORUNKNOWN**](ERRORUNKNOWN.md)
+[**AcceptedResponseBody**](AcceptedResponseBody.md)
 
 ### Authorization
 
@@ -187,6 +197,7 @@ Name | Type | Description  | Notes
 
 
 ### HTTP response details
+
 | Status code | Description | Response headers |
 |-------------|-------------|------------------|
 **202** | Status Accepted |  -  |
