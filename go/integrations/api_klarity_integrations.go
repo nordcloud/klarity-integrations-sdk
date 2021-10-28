@@ -3,7 +3,7 @@ Klarity Integrations
 
 REST API for managing Estate Records using Klarity Integrations. You can enrich your estate by creating new kinds of estate records or extending existing ones. Before making use of the API, you must first register your External Integration in Klarity, which provides you with the required authentication credentials. Then, you use those credentials to obtain a Token that allows you to make authorized calls to Klarity’s REST API for External Integration.
 
-API version: 0.0.3
+API version: 0.0.4
 Contact: products@nordcloud.com
 */
 
@@ -25,6 +25,23 @@ var (
 )
 
 type KlarityIntegrationsApi interface {
+
+	/*
+	V1EnrichmentsEstateRecordsPost Enrich Klarity estate records
+
+	Enriching works as upsert per integration, meaning new enrichment will be created if there was none for given integration
+and if enrichment already existed for given integration, it will be replaced by new one.
+Cost records can not be enriched.
+
+
+	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	 @return ApiV1EnrichmentsEstateRecordsPostRequest
+	*/
+	V1EnrichmentsEstateRecordsPost(ctx _context.Context) ApiV1EnrichmentsEstateRecordsPostRequest
+
+	// V1EnrichmentsEstateRecordsPostExecute executes the request
+	//  @return AcceptedResponseBody
+	V1EnrichmentsEstateRecordsPostExecute(r ApiV1EnrichmentsEstateRecordsPostRequest) (AcceptedResponseBody, *_nethttp.Response, error)
 
 	/*
 	V1EstateRecordsDelete Delete Klarity estate records
@@ -62,6 +79,157 @@ If you provide no value for a parameter, the given field is not updated in the e
 
 // KlarityIntegrationsApiService KlarityIntegrationsApi service
 type KlarityIntegrationsApiService service
+
+type ApiV1EnrichmentsEstateRecordsPostRequest struct {
+	ctx _context.Context
+	ApiService KlarityIntegrationsApi
+	enrichmentsEstateRecordsRequestBody *EnrichmentsEstateRecordsRequestBody
+}
+
+func (r ApiV1EnrichmentsEstateRecordsPostRequest) EnrichmentsEstateRecordsRequestBody(enrichmentsEstateRecordsRequestBody EnrichmentsEstateRecordsRequestBody) ApiV1EnrichmentsEstateRecordsPostRequest {
+	r.enrichmentsEstateRecordsRequestBody = &enrichmentsEstateRecordsRequestBody
+	return r
+}
+
+func (r ApiV1EnrichmentsEstateRecordsPostRequest) Execute() (AcceptedResponseBody, *_nethttp.Response, error) {
+	return r.ApiService.V1EnrichmentsEstateRecordsPostExecute(r)
+}
+
+/*
+V1EnrichmentsEstateRecordsPost Enrich Klarity estate records
+
+Enriching works as upsert per integration, meaning new enrichment will be created if there was none for given integration
+and if enrichment already existed for given integration, it will be replaced by new one.
+Cost records can not be enriched.
+
+
+ @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @return ApiV1EnrichmentsEstateRecordsPostRequest
+*/
+func (a *KlarityIntegrationsApiService) V1EnrichmentsEstateRecordsPost(ctx _context.Context) ApiV1EnrichmentsEstateRecordsPostRequest {
+	return ApiV1EnrichmentsEstateRecordsPostRequest{
+		ApiService: a,
+		ctx: ctx,
+	}
+}
+
+// Execute executes the request
+//  @return AcceptedResponseBody
+func (a *KlarityIntegrationsApiService) V1EnrichmentsEstateRecordsPostExecute(r ApiV1EnrichmentsEstateRecordsPostRequest) (AcceptedResponseBody, *_nethttp.Response, error) {
+	var (
+		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarPostBody     interface{}
+		localVarFormFileName string
+		localVarFileName     string
+		localVarFileBytes    []byte
+		localVarReturnValue  AcceptedResponseBody
+	)
+
+	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "KlarityIntegrationsApiService.V1EnrichmentsEstateRecordsPost")
+	if err != nil {
+		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+	}
+
+	localVarPath := localBasePath + "/v1/enrichments/estateRecords"
+
+	localVarHeaderParams := make(map[string]string)
+	localVarQueryParams := _neturl.Values{}
+	localVarFormParams := _neturl.Values{}
+
+	// to determine the Content-Type header
+	localVarHTTPContentTypes := []string{"application/json"}
+
+	// set Content-Type header
+	localVarHTTPContentType := selectHeaderContentType(localVarHTTPContentTypes)
+	if localVarHTTPContentType != "" {
+		localVarHeaderParams["Content-Type"] = localVarHTTPContentType
+	}
+
+	// to determine the Accept header
+	localVarHTTPHeaderAccepts := []string{"application/json"}
+
+	// set Accept header
+	localVarHTTPHeaderAccept := selectHeaderAccept(localVarHTTPHeaderAccepts)
+	if localVarHTTPHeaderAccept != "" {
+		localVarHeaderParams["Accept"] = localVarHTTPHeaderAccept
+	}
+	// body params
+	localVarPostBody = r.enrichmentsEstateRecordsRequestBody
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	if err != nil {
+		return localVarReturnValue, nil, err
+	}
+
+	localVarHTTPResponse, err := a.client.callAPI(req)
+	if err != nil || localVarHTTPResponse == nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarHTTPResponse.Body.Close()
+	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	if err != nil {
+		return localVarReturnValue, localVarHTTPResponse, err
+	}
+
+	if localVarHTTPResponse.StatusCode >= 300 {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: localVarHTTPResponse.Status,
+		}
+		if localVarHTTPResponse.StatusCode == 400 {
+			var v ErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 401 {
+			var v ErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 429 {
+			var v ErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+			return localVarReturnValue, localVarHTTPResponse, newErr
+		}
+		if localVarHTTPResponse.StatusCode == 500 {
+			var v ErrorResponse
+			err = a.client.decode(&v, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+			if err != nil {
+				newErr.error = err.Error()
+				return localVarReturnValue, localVarHTTPResponse, newErr
+			}
+			newErr.model = v
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
+	if err != nil {
+		newErr := GenericOpenAPIError{
+			body:  localVarBody,
+			error: err.Error(),
+		}
+		return localVarReturnValue, localVarHTTPResponse, newErr
+	}
+
+	return localVarReturnValue, localVarHTTPResponse, nil
+}
 
 type ApiV1EstateRecordsDeleteRequest struct {
 	ctx _context.Context

@@ -4,9 +4,76 @@ All URIs are relative to *https://integrations-api.klarity.nordcloudapp.com*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
+[**V1EnrichmentsEstateRecordsPost**](KlarityIntegrationsApi.md#V1EnrichmentsEstateRecordsPost) | **Post** /v1/enrichments/estateRecords | Enrich Klarity estate records
 [**V1EstateRecordsDelete**](KlarityIntegrationsApi.md#V1EstateRecordsDelete) | **Delete** /v1/estateRecords | Delete Klarity estate records
 [**V1EstateRecordsPost**](KlarityIntegrationsApi.md#V1EstateRecordsPost) | **Post** /v1/estateRecords | Manage Klarity estate records
 
+
+
+## V1EnrichmentsEstateRecordsPost
+
+> AcceptedResponseBody V1EnrichmentsEstateRecordsPost(ctx).EnrichmentsEstateRecordsRequestBody(enrichmentsEstateRecordsRequestBody).Execute()
+
+Enrich Klarity estate records
+
+
+
+### Example
+
+```go
+package main
+
+import (
+    "context"
+    "fmt"
+    "os"
+    openapiclient "./openapi"
+)
+
+func main() {
+    enrichmentsEstateRecordsRequestBody := *openapiclient.NewEnrichmentsEstateRecordsRequestBody([]openapiclient.EnrichmentsEstateRecordsRequestBodyEnrichments{*openapiclient.NewEnrichmentsEstateRecordsRequestBodyEnrichments(*openapiclient.NewEnrichmentRecord(), map[string]interface{}({"lastBackupTime":"2021-10-19T07:10:38.147Z","details":{"succeeded":true,"durationSeconds":1234}}))}) // EnrichmentsEstateRecordsRequestBody |  (optional)
+
+    configuration := openapiclient.NewConfiguration()
+    api_client := openapiclient.NewAPIClient(configuration)
+    resp, r, err := api_client.KlarityIntegrationsApi.V1EnrichmentsEstateRecordsPost(context.Background()).EnrichmentsEstateRecordsRequestBody(enrichmentsEstateRecordsRequestBody).Execute()
+    if err != nil {
+        fmt.Fprintf(os.Stderr, "Error when calling `KlarityIntegrationsApi.V1EnrichmentsEstateRecordsPost``: %v\n", err)
+        fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
+    }
+    // response from `V1EnrichmentsEstateRecordsPost`: AcceptedResponseBody
+    fmt.Fprintf(os.Stdout, "Response from `KlarityIntegrationsApi.V1EnrichmentsEstateRecordsPost`: %v\n", resp)
+}
+```
+
+### Path Parameters
+
+
+
+### Other Parameters
+
+Other parameters are passed through a pointer to a apiV1EnrichmentsEstateRecordsPostRequest struct via the builder pattern
+
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **enrichmentsEstateRecordsRequestBody** | [**EnrichmentsEstateRecordsRequestBody**](EnrichmentsEstateRecordsRequestBody.md) |  | 
+
+### Return type
+
+[**AcceptedResponseBody**](AcceptedResponseBody.md)
+
+### Authorization
+
+[bearerAuth](../README.md#bearerAuth)
+
+### HTTP request headers
+
+- **Content-Type**: application/json
+- **Accept**: application/json
+
+[[Back to top]](#) [[Back to API list]](../README.md#documentation-for-api-endpoints)
+[[Back to Model list]](../README.md#documentation-for-models)
+[[Back to README]](../README.md)
 
 
 ## V1EstateRecordsDelete

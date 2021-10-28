@@ -14,7 +14,7 @@ info:
     url: https://www.apache.org/licenses/LICENSE-2.0.html
   termsOfService: https://klarity.nordcloud.com/terms-conditions/
   title: Klarity Integrations
-  version: 0.0.3
+  version: 0.0.4
 servers:
 - description: prod environment
   url: https://integrations-api.klarity.nordcloudapp.com
@@ -110,6 +110,51 @@ paths:
                 $ref: '#/components/schemas/ErrorResponse'
           description: Internal server error
       summary: Manage Klarity estate records
+      tags:
+      - KlarityIntegrations
+  /v1/enrichments/estateRecords:
+    post:
+      description: |
+        Enriching works as upsert per integration, meaning new enrichment will be created if there was none for given integration
+        and if enrichment already existed for given integration, it will be replaced by new one.
+        Cost records can not be enriched.
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnrichmentsEstateRecordsRequestBody'
+      responses:
+        "202":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AcceptedResponseBody'
+          description: Status Accepted
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Bad request
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Unauthorized response
+        "429":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Too many requests
+        "500":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+          description: Internal server error
+      summary: Enrich Klarity estate records
       tags:
       - KlarityIntegrations
 components:
@@ -401,6 +446,77 @@ components:
       description: Nordcloud ID of a resource in Klarity.
       format: uuid
       type: string
+    EnrichmentsEstateRecordsRequestBody:
+      example:
+        enrichments:
+        - data:
+            lastBackupTime: 2021-10-19T07:10:38.147Z
+            details:
+              succeeded: true
+              durationSeconds: 1234
+          record:
+            nid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - data:
+            lastBackupTime: 2021-10-19T07:10:38.147Z
+            details:
+              succeeded: true
+              durationSeconds: 1234
+          record:
+            nid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - data:
+            lastBackupTime: 2021-10-19T07:10:38.147Z
+            details:
+              succeeded: true
+              durationSeconds: 1234
+          record:
+            nid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - data:
+            lastBackupTime: 2021-10-19T07:10:38.147Z
+            details:
+              succeeded: true
+              durationSeconds: 1234
+          record:
+            nid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+        - data:
+            lastBackupTime: 2021-10-19T07:10:38.147Z
+            details:
+              succeeded: true
+              durationSeconds: 1234
+          record:
+            nid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        enrichments:
+          items:
+            $ref: '#/components/schemas/EnrichmentsEstateRecordsRequestBody_enrichments'
+          maxItems: 1000
+          minItems: 1
+          type: array
+      required:
+      - enrichments
+      type: object
+    EnrichmentRecord:
+      description: |
+        Identifies enriched record.
+        Nid is currently required, since it is the only option to identify record.
+      example:
+        nid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        nid:
+          description: Nordcloud ID of a resource in Klarity.
+          format: uuid
+          type: string
+      type: object
+    EnrichmentData:
+      description: |
+        Data contains an arbitrary JSON object with enrichment of the record.
+        Can not be empty object.
+        Maximum object size is 1MB.
+      example:
+        lastBackupTime: 2021-10-19T07:10:38.147Z
+        details:
+          succeeded: true
+          durationSeconds: 1234
+      type: object
     EstateRecordsRequestBody_records:
       example:
         costs:
@@ -510,6 +626,33 @@ components:
           example: jira/subscription/basic
           maxLength: 255
           type: string
+      type: object
+    EnrichmentsEstateRecordsRequestBody_enrichments:
+      example:
+        data:
+          lastBackupTime: 2021-10-19T07:10:38.147Z
+          details:
+            succeeded: true
+            durationSeconds: 1234
+        record:
+          nid: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+      properties:
+        record:
+          $ref: '#/components/schemas/EnrichmentRecord'
+        data:
+          description: |
+            Data contains an arbitrary JSON object with enrichment of the record.
+            Can not be empty object.
+            Maximum object size is 1MB.
+          example:
+            lastBackupTime: 2021-10-19T07:10:38.147Z
+            details:
+              succeeded: true
+              durationSeconds: 1234
+          type: object
+      required:
+      - data
+      - record
       type: object
   securitySchemes:
     bearerAuth:

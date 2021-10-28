@@ -9,40 +9,28 @@
 """
 
 
+import sys
 import unittest
 
 import klarity_integrations
-from klarity_integrations.api.klarity_integrations_api import KlarityIntegrationsApi  # noqa: E501
+from klarity_integrations.model.enrichment_record import EnrichmentRecord
+globals()['EnrichmentRecord'] = EnrichmentRecord
+from klarity_integrations.model.enrichments_estate_records_request_body_enrichments import EnrichmentsEstateRecordsRequestBodyEnrichments
 
 
-class TestKlarityIntegrationsApi(unittest.TestCase):
-    """KlarityIntegrationsApi unit test stubs"""
+class TestEnrichmentsEstateRecordsRequestBodyEnrichments(unittest.TestCase):
+    """EnrichmentsEstateRecordsRequestBodyEnrichments unit test stubs"""
 
     def setUp(self):
-        self.api = KlarityIntegrationsApi()  # noqa: E501
+        pass
 
     def tearDown(self):
         pass
 
-    def test_v1_enrichments_estate_records_post(self):
-        """Test case for v1_enrichments_estate_records_post
-
-        Enrich Klarity estate records  # noqa: E501
-        """
-        pass
-
-    def test_v1_estate_records_delete(self):
-        """Test case for v1_estate_records_delete
-
-        Delete Klarity estate records  # noqa: E501
-        """
-        pass
-
-    def test_v1_estate_records_post(self):
-        """Test case for v1_estate_records_post
-
-        Manage Klarity estate records  # noqa: E501
-        """
+    def testEnrichmentsEstateRecordsRequestBodyEnrichments(self):
+        """Test EnrichmentsEstateRecordsRequestBodyEnrichments"""
+        # FIXME: construct object with mandatory attributes with example values
+        # model = EnrichmentsEstateRecordsRequestBodyEnrichments()  # noqa: E501
         pass
 
 
