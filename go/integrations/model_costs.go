@@ -3,7 +3,7 @@ Klarity Integrations
 
 REST API for managing Estate Records using Klarity Integrations. You can enrich your estate by creating new kinds of estate records or extending existing ones. Before making use of the API, you must first register your External Integration in Klarity, which provides you with the required authentication credentials. Then, you use those credentials to obtain a Token that allows you to make authorized calls to Klarity’s REST API for External Integration.
 
-API version: 0.0.4
+API version: 0.0.5
 Contact: products@nordcloud.com
 */
 
@@ -14,6 +14,9 @@ package integrations
 import (
 	"encoding/json"
 )
+
+// checks if the Costs type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &Costs{}
 
 // Costs Costs object contains an array of costs per day and a currency. Only if there is a date passed into an array, then the cost is being added/updated for this date. If you want to clear cost for a given date, you have to `null` directly into an array. 
 type Costs struct {
@@ -57,7 +60,7 @@ func (o *Costs) GetCurrency() string {
 // GetCurrencyOk returns a tuple with the Currency field value
 // and a boolean to check if the value has been set.
 func (o *Costs) GetCurrencyOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Currency, true
@@ -80,11 +83,11 @@ func (o *Costs) GetValues() []CostElement {
 
 // GetValuesOk returns a tuple with the Values field value
 // and a boolean to check if the value has been set.
-func (o *Costs) GetValuesOk() (*[]CostElement, bool) {
-	if o == nil  {
+func (o *Costs) GetValuesOk() ([]CostElement, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Values, true
+	return o.Values, true
 }
 
 // SetValues sets field value
@@ -93,19 +96,23 @@ func (o *Costs) SetValues(v []CostElement) {
 }
 
 func (o Costs) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o Costs) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["currency"] = o.Currency
-	}
-	if true {
-		toSerialize["values"] = o.Values
-	}
+	toSerialize["currency"] = o.Currency
+	toSerialize["values"] = o.Values
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *Costs) UnmarshalJSON(bytes []byte) (err error) {

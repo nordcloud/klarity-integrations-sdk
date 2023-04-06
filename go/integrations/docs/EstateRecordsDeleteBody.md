@@ -5,13 +5,13 @@
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **Period** | [**PeriodEnum**](PeriodEnum.md) |  | 
-**Records** | [**[]EstateRecordsDeleteBodyRecords**](EstateRecordsDeleteBodyRecords.md) |  | 
+**Records** | [**[]EstateRecordsDeleteBodyRecordsInner**](EstateRecordsDeleteBodyRecordsInner.md) |  | 
 
 ## Methods
 
 ### NewEstateRecordsDeleteBody
 
-`func NewEstateRecordsDeleteBody(period PeriodEnum, records []EstateRecordsDeleteBodyRecords, ) *EstateRecordsDeleteBody`
+`func NewEstateRecordsDeleteBody(period PeriodEnum, records []EstateRecordsDeleteBodyRecordsInner, ) *EstateRecordsDeleteBody`
 
 NewEstateRecordsDeleteBody instantiates a new EstateRecordsDeleteBody object
 This constructor will assign default values to properties that have it defined,
@@ -48,20 +48,20 @@ SetPeriod sets Period field to given value.
 
 ### GetRecords
 
-`func (o *EstateRecordsDeleteBody) GetRecords() []EstateRecordsDeleteBodyRecords`
+`func (o *EstateRecordsDeleteBody) GetRecords() []EstateRecordsDeleteBodyRecordsInner`
 
 GetRecords returns the Records field if non-nil, zero value otherwise.
 
 ### GetRecordsOk
 
-`func (o *EstateRecordsDeleteBody) GetRecordsOk() (*[]EstateRecordsDeleteBodyRecords, bool)`
+`func (o *EstateRecordsDeleteBody) GetRecordsOk() (*[]EstateRecordsDeleteBodyRecordsInner, bool)`
 
 GetRecordsOk returns a tuple with the Records field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetRecords
 
-`func (o *EstateRecordsDeleteBody) SetRecords(v []EstateRecordsDeleteBodyRecords)`
+`func (o *EstateRecordsDeleteBody) SetRecords(v []EstateRecordsDeleteBodyRecordsInner)`
 
 SetRecords sets Records field to given value.
 

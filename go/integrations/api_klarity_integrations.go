@@ -3,7 +3,7 @@ Klarity Integrations
 
 REST API for managing Estate Records using Klarity Integrations. You can enrich your estate by creating new kinds of estate records or extending existing ones. Before making use of the API, you must first register your External Integration in Klarity, which provides you with the required authentication credentials. Then, you use those credentials to obtain a Token that allows you to make authorized calls to Klarity’s REST API for External Integration.
 
-API version: 0.0.4
+API version: 0.0.5
 Contact: products@nordcloud.com
 */
 
@@ -13,16 +13,12 @@ package integrations
 
 import (
 	"bytes"
-	_context "context"
-	_ioutil "io/ioutil"
-	_nethttp "net/http"
-	_neturl "net/url"
+	"context"
+	"io"
+	"net/http"
+	"net/url"
 )
 
-// Linger please
-var (
-	_ _context.Context
-)
 
 type KlarityIntegrationsApi interface {
 
@@ -34,14 +30,14 @@ and if enrichment already existed for given integration, it will be replaced by 
 Cost records can not be enriched.
 
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiV1EnrichmentsEstateRecordsPostRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiV1EnrichmentsEstateRecordsPostRequest
 	*/
-	V1EnrichmentsEstateRecordsPost(ctx _context.Context) ApiV1EnrichmentsEstateRecordsPostRequest
+	V1EnrichmentsEstateRecordsPost(ctx context.Context) ApiV1EnrichmentsEstateRecordsPostRequest
 
 	// V1EnrichmentsEstateRecordsPostExecute executes the request
 	//  @return AcceptedResponseBody
-	V1EnrichmentsEstateRecordsPostExecute(r ApiV1EnrichmentsEstateRecordsPostRequest) (AcceptedResponseBody, *_nethttp.Response, error)
+	V1EnrichmentsEstateRecordsPostExecute(r ApiV1EnrichmentsEstateRecordsPostRequest) (*AcceptedResponseBody, *http.Response, error)
 
 	/*
 	V1EstateRecordsDelete Delete Klarity estate records
@@ -50,14 +46,14 @@ Cost records can not be enriched.
 Records can be deleted in current, previous or all periods.
 
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiV1EstateRecordsDeleteRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiV1EstateRecordsDeleteRequest
 	*/
-	V1EstateRecordsDelete(ctx _context.Context) ApiV1EstateRecordsDeleteRequest
+	V1EstateRecordsDelete(ctx context.Context) ApiV1EstateRecordsDeleteRequest
 
 	// V1EstateRecordsDeleteExecute executes the request
 	//  @return AcceptedResponseBody
-	V1EstateRecordsDeleteExecute(r ApiV1EstateRecordsDeleteRequest) (AcceptedResponseBody, *_nethttp.Response, error)
+	V1EstateRecordsDeleteExecute(r ApiV1EstateRecordsDeleteRequest) (*AcceptedResponseBody, *http.Response, error)
 
 	/*
 	V1EstateRecordsPost Manage Klarity estate records
@@ -67,21 +63,21 @@ You update metadata, tags, and costs by data-upserting: If you provide a value f
 If you provide no value for a parameter, the given field is not updated in the estate record.
 
 
-	 @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
-	 @return ApiV1EstateRecordsPostRequest
+	@param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+	@return ApiV1EstateRecordsPostRequest
 	*/
-	V1EstateRecordsPost(ctx _context.Context) ApiV1EstateRecordsPostRequest
+	V1EstateRecordsPost(ctx context.Context) ApiV1EstateRecordsPostRequest
 
 	// V1EstateRecordsPostExecute executes the request
 	//  @return AcceptedResponseBody
-	V1EstateRecordsPostExecute(r ApiV1EstateRecordsPostRequest) (AcceptedResponseBody, *_nethttp.Response, error)
+	V1EstateRecordsPostExecute(r ApiV1EstateRecordsPostRequest) (*AcceptedResponseBody, *http.Response, error)
 }
 
 // KlarityIntegrationsApiService KlarityIntegrationsApi service
 type KlarityIntegrationsApiService service
 
 type ApiV1EnrichmentsEstateRecordsPostRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService KlarityIntegrationsApi
 	enrichmentsEstateRecordsRequestBody *EnrichmentsEstateRecordsRequestBody
 }
@@ -91,7 +87,7 @@ func (r ApiV1EnrichmentsEstateRecordsPostRequest) EnrichmentsEstateRecordsReques
 	return r
 }
 
-func (r ApiV1EnrichmentsEstateRecordsPostRequest) Execute() (AcceptedResponseBody, *_nethttp.Response, error) {
+func (r ApiV1EnrichmentsEstateRecordsPostRequest) Execute() (*AcceptedResponseBody, *http.Response, error) {
 	return r.ApiService.V1EnrichmentsEstateRecordsPostExecute(r)
 }
 
@@ -103,10 +99,10 @@ and if enrichment already existed for given integration, it will be replaced by 
 Cost records can not be enriched.
 
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiV1EnrichmentsEstateRecordsPostRequest
 */
-func (a *KlarityIntegrationsApiService) V1EnrichmentsEstateRecordsPost(ctx _context.Context) ApiV1EnrichmentsEstateRecordsPostRequest {
+func (a *KlarityIntegrationsApiService) V1EnrichmentsEstateRecordsPost(ctx context.Context) ApiV1EnrichmentsEstateRecordsPostRequest {
 	return ApiV1EnrichmentsEstateRecordsPostRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -115,26 +111,24 @@ func (a *KlarityIntegrationsApiService) V1EnrichmentsEstateRecordsPost(ctx _cont
 
 // Execute executes the request
 //  @return AcceptedResponseBody
-func (a *KlarityIntegrationsApiService) V1EnrichmentsEstateRecordsPostExecute(r ApiV1EnrichmentsEstateRecordsPostRequest) (AcceptedResponseBody, *_nethttp.Response, error) {
+func (a *KlarityIntegrationsApiService) V1EnrichmentsEstateRecordsPostExecute(r ApiV1EnrichmentsEstateRecordsPostRequest) (*AcceptedResponseBody, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  AcceptedResponseBody
+		formFiles            []formFile
+		localVarReturnValue  *AcceptedResponseBody
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "KlarityIntegrationsApiService.V1EnrichmentsEstateRecordsPost")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/v1/enrichments/estateRecords"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
@@ -155,7 +149,7 @@ func (a *KlarityIntegrationsApiService) V1EnrichmentsEstateRecordsPostExecute(r 
 	}
 	// body params
 	localVarPostBody = r.enrichmentsEstateRecordsRequestBody
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -165,15 +159,15 @@ func (a *KlarityIntegrationsApiService) V1EnrichmentsEstateRecordsPostExecute(r 
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -184,7 +178,8 @@ func (a *KlarityIntegrationsApiService) V1EnrichmentsEstateRecordsPostExecute(r 
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-			newErr.model = v
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -194,7 +189,8 @@ func (a *KlarityIntegrationsApiService) V1EnrichmentsEstateRecordsPostExecute(r 
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-			newErr.model = v
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 429 {
@@ -204,7 +200,8 @@ func (a *KlarityIntegrationsApiService) V1EnrichmentsEstateRecordsPostExecute(r 
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-			newErr.model = v
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -214,14 +211,15 @@ func (a *KlarityIntegrationsApiService) V1EnrichmentsEstateRecordsPostExecute(r 
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-			newErr.model = v
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -232,7 +230,7 @@ func (a *KlarityIntegrationsApiService) V1EnrichmentsEstateRecordsPostExecute(r 
 }
 
 type ApiV1EstateRecordsDeleteRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService KlarityIntegrationsApi
 	estateRecordsDeleteBody *EstateRecordsDeleteBody
 }
@@ -242,7 +240,7 @@ func (r ApiV1EstateRecordsDeleteRequest) EstateRecordsDeleteBody(estateRecordsDe
 	return r
 }
 
-func (r ApiV1EstateRecordsDeleteRequest) Execute() (AcceptedResponseBody, *_nethttp.Response, error) {
+func (r ApiV1EstateRecordsDeleteRequest) Execute() (*AcceptedResponseBody, *http.Response, error) {
 	return r.ApiService.V1EstateRecordsDeleteExecute(r)
 }
 
@@ -253,10 +251,10 @@ In Klarity, to delete an estate record created from an External Integration, pro
 Records can be deleted in current, previous or all periods.
 
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiV1EstateRecordsDeleteRequest
 */
-func (a *KlarityIntegrationsApiService) V1EstateRecordsDelete(ctx _context.Context) ApiV1EstateRecordsDeleteRequest {
+func (a *KlarityIntegrationsApiService) V1EstateRecordsDelete(ctx context.Context) ApiV1EstateRecordsDeleteRequest {
 	return ApiV1EstateRecordsDeleteRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -265,26 +263,24 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsDelete(ctx _context.Conte
 
 // Execute executes the request
 //  @return AcceptedResponseBody
-func (a *KlarityIntegrationsApiService) V1EstateRecordsDeleteExecute(r ApiV1EstateRecordsDeleteRequest) (AcceptedResponseBody, *_nethttp.Response, error) {
+func (a *KlarityIntegrationsApiService) V1EstateRecordsDeleteExecute(r ApiV1EstateRecordsDeleteRequest) (*AcceptedResponseBody, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodDelete
+		localVarHTTPMethod   = http.MethodDelete
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  AcceptedResponseBody
+		formFiles            []formFile
+		localVarReturnValue  *AcceptedResponseBody
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "KlarityIntegrationsApiService.V1EstateRecordsDelete")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/v1/estateRecords"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
@@ -305,7 +301,7 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsDeleteExecute(r ApiV1Esta
 	}
 	// body params
 	localVarPostBody = r.estateRecordsDeleteBody
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -315,15 +311,15 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsDeleteExecute(r ApiV1Esta
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -334,7 +330,8 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsDeleteExecute(r ApiV1Esta
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-			newErr.model = v
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -344,7 +341,8 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsDeleteExecute(r ApiV1Esta
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-			newErr.model = v
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 429 {
@@ -354,7 +352,8 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsDeleteExecute(r ApiV1Esta
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-			newErr.model = v
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -364,14 +363,15 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsDeleteExecute(r ApiV1Esta
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-			newErr.model = v
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}
@@ -382,7 +382,7 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsDeleteExecute(r ApiV1Esta
 }
 
 type ApiV1EstateRecordsPostRequest struct {
-	ctx _context.Context
+	ctx context.Context
 	ApiService KlarityIntegrationsApi
 	estateRecordsRequestBody *EstateRecordsRequestBody
 }
@@ -392,7 +392,7 @@ func (r ApiV1EstateRecordsPostRequest) EstateRecordsRequestBody(estateRecordsReq
 	return r
 }
 
-func (r ApiV1EstateRecordsPostRequest) Execute() (AcceptedResponseBody, *_nethttp.Response, error) {
+func (r ApiV1EstateRecordsPostRequest) Execute() (*AcceptedResponseBody, *http.Response, error) {
 	return r.ApiService.V1EstateRecordsPostExecute(r)
 }
 
@@ -404,10 +404,10 @@ You update metadata, tags, and costs by data-upserting: If you provide a value f
 If you provide no value for a parameter, the given field is not updated in the estate record.
 
 
- @param ctx _context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
+ @param ctx context.Context - for authentication, logging, cancellation, deadlines, tracing, etc. Passed from http.Request or context.Background().
  @return ApiV1EstateRecordsPostRequest
 */
-func (a *KlarityIntegrationsApiService) V1EstateRecordsPost(ctx _context.Context) ApiV1EstateRecordsPostRequest {
+func (a *KlarityIntegrationsApiService) V1EstateRecordsPost(ctx context.Context) ApiV1EstateRecordsPostRequest {
 	return ApiV1EstateRecordsPostRequest{
 		ApiService: a,
 		ctx: ctx,
@@ -416,26 +416,24 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsPost(ctx _context.Context
 
 // Execute executes the request
 //  @return AcceptedResponseBody
-func (a *KlarityIntegrationsApiService) V1EstateRecordsPostExecute(r ApiV1EstateRecordsPostRequest) (AcceptedResponseBody, *_nethttp.Response, error) {
+func (a *KlarityIntegrationsApiService) V1EstateRecordsPostExecute(r ApiV1EstateRecordsPostRequest) (*AcceptedResponseBody, *http.Response, error) {
 	var (
-		localVarHTTPMethod   = _nethttp.MethodPost
+		localVarHTTPMethod   = http.MethodPost
 		localVarPostBody     interface{}
-		localVarFormFileName string
-		localVarFileName     string
-		localVarFileBytes    []byte
-		localVarReturnValue  AcceptedResponseBody
+		formFiles            []formFile
+		localVarReturnValue  *AcceptedResponseBody
 	)
 
 	localBasePath, err := a.client.cfg.ServerURLWithContext(r.ctx, "KlarityIntegrationsApiService.V1EstateRecordsPost")
 	if err != nil {
-		return localVarReturnValue, nil, GenericOpenAPIError{error: err.Error()}
+		return localVarReturnValue, nil, &GenericOpenAPIError{error: err.Error()}
 	}
 
 	localVarPath := localBasePath + "/v1/estateRecords"
 
 	localVarHeaderParams := make(map[string]string)
-	localVarQueryParams := _neturl.Values{}
-	localVarFormParams := _neturl.Values{}
+	localVarQueryParams := url.Values{}
+	localVarFormParams := url.Values{}
 
 	// to determine the Content-Type header
 	localVarHTTPContentTypes := []string{"application/json"}
@@ -456,7 +454,7 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsPostExecute(r ApiV1Estate
 	}
 	// body params
 	localVarPostBody = r.estateRecordsRequestBody
-	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, localVarFormFileName, localVarFileName, localVarFileBytes)
+	req, err := a.client.prepareRequest(r.ctx, localVarPath, localVarHTTPMethod, localVarPostBody, localVarHeaderParams, localVarQueryParams, localVarFormParams, formFiles)
 	if err != nil {
 		return localVarReturnValue, nil, err
 	}
@@ -466,15 +464,15 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsPostExecute(r ApiV1Estate
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
-	localVarBody, err := _ioutil.ReadAll(localVarHTTPResponse.Body)
+	localVarBody, err := io.ReadAll(localVarHTTPResponse.Body)
 	localVarHTTPResponse.Body.Close()
-	localVarHTTPResponse.Body = _ioutil.NopCloser(bytes.NewBuffer(localVarBody))
+	localVarHTTPResponse.Body = io.NopCloser(bytes.NewBuffer(localVarBody))
 	if err != nil {
 		return localVarReturnValue, localVarHTTPResponse, err
 	}
 
 	if localVarHTTPResponse.StatusCode >= 300 {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: localVarHTTPResponse.Status,
 		}
@@ -485,7 +483,8 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsPostExecute(r ApiV1Estate
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-			newErr.model = v
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 401 {
@@ -495,7 +494,8 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsPostExecute(r ApiV1Estate
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-			newErr.model = v
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 429 {
@@ -505,7 +505,8 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsPostExecute(r ApiV1Estate
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-			newErr.model = v
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 			return localVarReturnValue, localVarHTTPResponse, newErr
 		}
 		if localVarHTTPResponse.StatusCode == 500 {
@@ -515,14 +516,15 @@ func (a *KlarityIntegrationsApiService) V1EstateRecordsPostExecute(r ApiV1Estate
 				newErr.error = err.Error()
 				return localVarReturnValue, localVarHTTPResponse, newErr
 			}
-			newErr.model = v
+					newErr.error = formatErrorMessage(localVarHTTPResponse.Status, &v)
+					newErr.model = v
 		}
 		return localVarReturnValue, localVarHTTPResponse, newErr
 	}
 
 	err = a.client.decode(&localVarReturnValue, localVarBody, localVarHTTPResponse.Header.Get("Content-Type"))
 	if err != nil {
-		newErr := GenericOpenAPIError{
+		newErr := &GenericOpenAPIError{
 			body:  localVarBody,
 			error: err.Error(),
 		}

@@ -3,7 +3,7 @@ Klarity Integrations
 
 REST API for managing Estate Records using Klarity Integrations. You can enrich your estate by creating new kinds of estate records or extending existing ones. Before making use of the API, you must first register your External Integration in Klarity, which provides you with the required authentication credentials. Then, you use those credentials to obtain a Token that allows you to make authorized calls to Klarity’s REST API for External Integration.
 
-API version: 0.0.4
+API version: 0.0.5
 Contact: products@nordcloud.com
 */
 
@@ -15,9 +15,12 @@ import (
 	"encoding/json"
 )
 
+// checks if the EnrichmentsEstateRecordsRequestBody type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &EnrichmentsEstateRecordsRequestBody{}
+
 // EnrichmentsEstateRecordsRequestBody struct for EnrichmentsEstateRecordsRequestBody
 type EnrichmentsEstateRecordsRequestBody struct {
-	Enrichments []EnrichmentsEstateRecordsRequestBodyEnrichments `json:"enrichments"`
+	Enrichments []EnrichmentsEstateRecordsRequestBodyEnrichmentsInner `json:"enrichments"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -27,7 +30,7 @@ type _EnrichmentsEstateRecordsRequestBody EnrichmentsEstateRecordsRequestBody
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEnrichmentsEstateRecordsRequestBody(enrichments []EnrichmentsEstateRecordsRequestBodyEnrichments) *EnrichmentsEstateRecordsRequestBody {
+func NewEnrichmentsEstateRecordsRequestBody(enrichments []EnrichmentsEstateRecordsRequestBodyEnrichmentsInner) *EnrichmentsEstateRecordsRequestBody {
 	this := EnrichmentsEstateRecordsRequestBody{}
 	this.Enrichments = enrichments
 	return &this
@@ -42,9 +45,9 @@ func NewEnrichmentsEstateRecordsRequestBodyWithDefaults() *EnrichmentsEstateReco
 }
 
 // GetEnrichments returns the Enrichments field value
-func (o *EnrichmentsEstateRecordsRequestBody) GetEnrichments() []EnrichmentsEstateRecordsRequestBodyEnrichments {
+func (o *EnrichmentsEstateRecordsRequestBody) GetEnrichments() []EnrichmentsEstateRecordsRequestBodyEnrichmentsInner {
 	if o == nil {
-		var ret []EnrichmentsEstateRecordsRequestBodyEnrichments
+		var ret []EnrichmentsEstateRecordsRequestBodyEnrichmentsInner
 		return ret
 	}
 
@@ -53,29 +56,35 @@ func (o *EnrichmentsEstateRecordsRequestBody) GetEnrichments() []EnrichmentsEsta
 
 // GetEnrichmentsOk returns a tuple with the Enrichments field value
 // and a boolean to check if the value has been set.
-func (o *EnrichmentsEstateRecordsRequestBody) GetEnrichmentsOk() (*[]EnrichmentsEstateRecordsRequestBodyEnrichments, bool) {
-	if o == nil  {
+func (o *EnrichmentsEstateRecordsRequestBody) GetEnrichmentsOk() ([]EnrichmentsEstateRecordsRequestBodyEnrichmentsInner, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Enrichments, true
+	return o.Enrichments, true
 }
 
 // SetEnrichments sets field value
-func (o *EnrichmentsEstateRecordsRequestBody) SetEnrichments(v []EnrichmentsEstateRecordsRequestBodyEnrichments) {
+func (o *EnrichmentsEstateRecordsRequestBody) SetEnrichments(v []EnrichmentsEstateRecordsRequestBodyEnrichmentsInner) {
 	o.Enrichments = v
 }
 
 func (o EnrichmentsEstateRecordsRequestBody) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["enrichments"] = o.Enrichments
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
+	return json.Marshal(toSerialize)
+}
+
+func (o EnrichmentsEstateRecordsRequestBody) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	toSerialize["enrichments"] = o.Enrichments
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *EnrichmentsEstateRecordsRequestBody) UnmarshalJSON(bytes []byte) (err error) {

@@ -3,7 +3,7 @@ Klarity Integrations
 
 REST API for managing Estate Records using Klarity Integrations. You can enrich your estate by creating new kinds of estate records or extending existing ones. Before making use of the API, you must first register your External Integration in Klarity, which provides you with the required authentication credentials. Then, you use those credentials to obtain a Token that allows you to make authorized calls to Klarity’s REST API for External Integration.
 
-API version: 0.0.4
+API version: 0.0.5
 Contact: products@nordcloud.com
 */
 
@@ -15,9 +15,13 @@ import (
 	"encoding/json"
 )
 
+// checks if the EstateRecordsRequestBody type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &EstateRecordsRequestBody{}
+
 // EstateRecordsRequestBody struct for EstateRecordsRequestBody
 type EstateRecordsRequestBody struct {
-	Records []EstateRecordsRequestBodyRecords `json:"records"`
+	InsertInPeriod *InsertInPeriodEnum `json:"insertInPeriod,omitempty"`
+	Records []EstateRecordsRequestBodyRecordsInner `json:"records"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -27,7 +31,7 @@ type _EstateRecordsRequestBody EstateRecordsRequestBody
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEstateRecordsRequestBody(records []EstateRecordsRequestBodyRecords) *EstateRecordsRequestBody {
+func NewEstateRecordsRequestBody(records []EstateRecordsRequestBodyRecordsInner) *EstateRecordsRequestBody {
 	this := EstateRecordsRequestBody{}
 	this.Records = records
 	return &this
@@ -41,10 +45,42 @@ func NewEstateRecordsRequestBodyWithDefaults() *EstateRecordsRequestBody {
 	return &this
 }
 
+// GetInsertInPeriod returns the InsertInPeriod field value if set, zero value otherwise.
+func (o *EstateRecordsRequestBody) GetInsertInPeriod() InsertInPeriodEnum {
+	if o == nil || IsNil(o.InsertInPeriod) {
+		var ret InsertInPeriodEnum
+		return ret
+	}
+	return *o.InsertInPeriod
+}
+
+// GetInsertInPeriodOk returns a tuple with the InsertInPeriod field value if set, nil otherwise
+// and a boolean to check if the value has been set.
+func (o *EstateRecordsRequestBody) GetInsertInPeriodOk() (*InsertInPeriodEnum, bool) {
+	if o == nil || IsNil(o.InsertInPeriod) {
+		return nil, false
+	}
+	return o.InsertInPeriod, true
+}
+
+// HasInsertInPeriod returns a boolean if a field has been set.
+func (o *EstateRecordsRequestBody) HasInsertInPeriod() bool {
+	if o != nil && !IsNil(o.InsertInPeriod) {
+		return true
+	}
+
+	return false
+}
+
+// SetInsertInPeriod gets a reference to the given InsertInPeriodEnum and assigns it to the InsertInPeriod field.
+func (o *EstateRecordsRequestBody) SetInsertInPeriod(v InsertInPeriodEnum) {
+	o.InsertInPeriod = &v
+}
+
 // GetRecords returns the Records field value
-func (o *EstateRecordsRequestBody) GetRecords() []EstateRecordsRequestBodyRecords {
+func (o *EstateRecordsRequestBody) GetRecords() []EstateRecordsRequestBodyRecordsInner {
 	if o == nil {
-		var ret []EstateRecordsRequestBodyRecords
+		var ret []EstateRecordsRequestBodyRecordsInner
 		return ret
 	}
 
@@ -53,29 +89,38 @@ func (o *EstateRecordsRequestBody) GetRecords() []EstateRecordsRequestBodyRecord
 
 // GetRecordsOk returns a tuple with the Records field value
 // and a boolean to check if the value has been set.
-func (o *EstateRecordsRequestBody) GetRecordsOk() (*[]EstateRecordsRequestBodyRecords, bool) {
-	if o == nil  {
+func (o *EstateRecordsRequestBody) GetRecordsOk() ([]EstateRecordsRequestBodyRecordsInner, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Records, true
+	return o.Records, true
 }
 
 // SetRecords sets field value
-func (o *EstateRecordsRequestBody) SetRecords(v []EstateRecordsRequestBodyRecords) {
+func (o *EstateRecordsRequestBody) SetRecords(v []EstateRecordsRequestBodyRecordsInner) {
 	o.Records = v
 }
 
 func (o EstateRecordsRequestBody) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["records"] = o.Records
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
+	return json.Marshal(toSerialize)
+}
+
+func (o EstateRecordsRequestBody) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	if !IsNil(o.InsertInPeriod) {
+		toSerialize["insertInPeriod"] = o.InsertInPeriod
+	}
+	toSerialize["records"] = o.Records
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *EstateRecordsRequestBody) UnmarshalJSON(bytes []byte) (err error) {
@@ -88,6 +133,7 @@ func (o *EstateRecordsRequestBody) UnmarshalJSON(bytes []byte) (err error) {
 	additionalProperties := make(map[string]interface{})
 
 	if err = json.Unmarshal(bytes, &additionalProperties); err == nil {
+		delete(additionalProperties, "insertInPeriod")
 		delete(additionalProperties, "records")
 		o.AdditionalProperties = additionalProperties
 	}

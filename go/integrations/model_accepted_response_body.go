@@ -3,7 +3,7 @@ Klarity Integrations
 
 REST API for managing Estate Records using Klarity Integrations. You can enrich your estate by creating new kinds of estate records or extending existing ones. Before making use of the API, you must first register your External Integration in Klarity, which provides you with the required authentication credentials. Then, you use those credentials to obtain a Token that allows you to make authorized calls to Klarity’s REST API for External Integration.
 
-API version: 0.0.4
+API version: 0.0.5
 Contact: products@nordcloud.com
 */
 
@@ -14,6 +14,9 @@ package integrations
 import (
 	"encoding/json"
 )
+
+// checks if the AcceptedResponseBody type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &AcceptedResponseBody{}
 
 // AcceptedResponseBody Response returned when processing of a request ends successfully
 type AcceptedResponseBody struct {
@@ -42,7 +45,7 @@ func NewAcceptedResponseBodyWithDefaults() *AcceptedResponseBody {
 
 // GetMessage returns the Message field value if set, zero value otherwise.
 func (o *AcceptedResponseBody) GetMessage() string {
-	if o == nil || o.Message == nil {
+	if o == nil || IsNil(o.Message) {
 		var ret string
 		return ret
 	}
@@ -52,7 +55,7 @@ func (o *AcceptedResponseBody) GetMessage() string {
 // GetMessageOk returns a tuple with the Message field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *AcceptedResponseBody) GetMessageOk() (*string, bool) {
-	if o == nil || o.Message == nil {
+	if o == nil || IsNil(o.Message) {
 		return nil, false
 	}
 	return o.Message, true
@@ -60,7 +63,7 @@ func (o *AcceptedResponseBody) GetMessageOk() (*string, bool) {
 
 // HasMessage returns a boolean if a field has been set.
 func (o *AcceptedResponseBody) HasMessage() bool {
-	if o != nil && o.Message != nil {
+	if o != nil && !IsNil(o.Message) {
 		return true
 	}
 
@@ -73,8 +76,16 @@ func (o *AcceptedResponseBody) SetMessage(v string) {
 }
 
 func (o AcceptedResponseBody) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o AcceptedResponseBody) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Message != nil {
+	if !IsNil(o.Message) {
 		toSerialize["message"] = o.Message
 	}
 
@@ -82,7 +93,7 @@ func (o AcceptedResponseBody) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *AcceptedResponseBody) UnmarshalJSON(bytes []byte) (err error) {

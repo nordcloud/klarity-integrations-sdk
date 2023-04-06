@@ -3,7 +3,7 @@ Klarity Integrations
 
 REST API for managing Estate Records using Klarity Integrations. You can enrich your estate by creating new kinds of estate records or extending existing ones. Before making use of the API, you must first register your External Integration in Klarity, which provides you with the required authentication credentials. Then, you use those credentials to obtain a Token that allows you to make authorized calls to Klarity’s REST API for External Integration.
 
-API version: 0.0.4
+API version: 0.0.5
 Contact: products@nordcloud.com
 */
 
@@ -15,10 +15,13 @@ import (
 	"encoding/json"
 )
 
+// checks if the EstateRecordsDeleteBody type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &EstateRecordsDeleteBody{}
+
 // EstateRecordsDeleteBody struct for EstateRecordsDeleteBody
 type EstateRecordsDeleteBody struct {
 	Period PeriodEnum `json:"period"`
-	Records []EstateRecordsDeleteBodyRecords `json:"records"`
+	Records []EstateRecordsDeleteBodyRecordsInner `json:"records"`
 	AdditionalProperties map[string]interface{}
 }
 
@@ -28,7 +31,7 @@ type _EstateRecordsDeleteBody EstateRecordsDeleteBody
 // This constructor will assign default values to properties that have it defined,
 // and makes sure properties required by API are set, but the set of arguments
 // will change when the set of required properties is changed
-func NewEstateRecordsDeleteBody(period PeriodEnum, records []EstateRecordsDeleteBodyRecords) *EstateRecordsDeleteBody {
+func NewEstateRecordsDeleteBody(period PeriodEnum, records []EstateRecordsDeleteBodyRecordsInner) *EstateRecordsDeleteBody {
 	this := EstateRecordsDeleteBody{}
 	this.Period = period
 	this.Records = records
@@ -56,7 +59,7 @@ func (o *EstateRecordsDeleteBody) GetPeriod() PeriodEnum {
 // GetPeriodOk returns a tuple with the Period field value
 // and a boolean to check if the value has been set.
 func (o *EstateRecordsDeleteBody) GetPeriodOk() (*PeriodEnum, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Period, true
@@ -68,9 +71,9 @@ func (o *EstateRecordsDeleteBody) SetPeriod(v PeriodEnum) {
 }
 
 // GetRecords returns the Records field value
-func (o *EstateRecordsDeleteBody) GetRecords() []EstateRecordsDeleteBodyRecords {
+func (o *EstateRecordsDeleteBody) GetRecords() []EstateRecordsDeleteBodyRecordsInner {
 	if o == nil {
-		var ret []EstateRecordsDeleteBodyRecords
+		var ret []EstateRecordsDeleteBodyRecordsInner
 		return ret
 	}
 
@@ -79,32 +82,36 @@ func (o *EstateRecordsDeleteBody) GetRecords() []EstateRecordsDeleteBodyRecords 
 
 // GetRecordsOk returns a tuple with the Records field value
 // and a boolean to check if the value has been set.
-func (o *EstateRecordsDeleteBody) GetRecordsOk() (*[]EstateRecordsDeleteBodyRecords, bool) {
-	if o == nil  {
+func (o *EstateRecordsDeleteBody) GetRecordsOk() ([]EstateRecordsDeleteBodyRecordsInner, bool) {
+	if o == nil {
 		return nil, false
 	}
-	return &o.Records, true
+	return o.Records, true
 }
 
 // SetRecords sets field value
-func (o *EstateRecordsDeleteBody) SetRecords(v []EstateRecordsDeleteBodyRecords) {
+func (o *EstateRecordsDeleteBody) SetRecords(v []EstateRecordsDeleteBodyRecordsInner) {
 	o.Records = v
 }
 
 func (o EstateRecordsDeleteBody) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o EstateRecordsDeleteBody) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["period"] = o.Period
-	}
-	if true {
-		toSerialize["records"] = o.Records
-	}
+	toSerialize["period"] = o.Period
+	toSerialize["records"] = o.Records
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *EstateRecordsDeleteBody) UnmarshalJSON(bytes []byte) (err error) {

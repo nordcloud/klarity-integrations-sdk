@@ -3,7 +3,7 @@ Klarity Integrations
 
 REST API for managing Estate Records using Klarity Integrations. You can enrich your estate by creating new kinds of estate records or extending existing ones. Before making use of the API, you must first register your External Integration in Klarity, which provides you with the required authentication credentials. Then, you use those credentials to obtain a Token that allows you to make authorized calls to Klarity’s REST API for External Integration.
 
-API version: 0.0.4
+API version: 0.0.5
 Contact: products@nordcloud.com
 */
 
@@ -14,6 +14,9 @@ package integrations
 import (
 	"encoding/json"
 )
+
+// checks if the ErrorResponse type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &ErrorResponse{}
 
 // ErrorResponse Response returned when processing of a request ends with an error
 type ErrorResponse struct {
@@ -55,7 +58,7 @@ func (o *ErrorResponse) GetError() string {
 // GetErrorOk returns a tuple with the Error field value
 // and a boolean to check if the value has been set.
 func (o *ErrorResponse) GetErrorOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Error, true
@@ -67,16 +70,22 @@ func (o *ErrorResponse) SetError(v string) {
 }
 
 func (o ErrorResponse) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["error"] = o.Error
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
+	return json.Marshal(toSerialize)
+}
+
+func (o ErrorResponse) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	toSerialize["error"] = o.Error
 
 	for key, value := range o.AdditionalProperties {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *ErrorResponse) UnmarshalJSON(bytes []byte) (err error) {

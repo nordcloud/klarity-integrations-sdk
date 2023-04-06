@@ -3,7 +3,7 @@ Klarity Integrations
 
 REST API for managing Estate Records using Klarity Integrations. You can enrich your estate by creating new kinds of estate records or extending existing ones. Before making use of the API, you must first register your External Integration in Klarity, which provides you with the required authentication credentials. Then, you use those credentials to obtain a Token that allows you to make authorized calls to Klarity’s REST API for External Integration.
 
-API version: 0.0.4
+API version: 0.0.5
 Contact: products@nordcloud.com
 */
 
@@ -14,6 +14,9 @@ package integrations
 import (
 	"encoding/json"
 )
+
+// checks if the EnrichmentRecord type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &EnrichmentRecord{}
 
 // EnrichmentRecord Identifies enriched record. Nid is currently required, since it is the only option to identify record. 
 type EnrichmentRecord struct {
@@ -43,7 +46,7 @@ func NewEnrichmentRecordWithDefaults() *EnrichmentRecord {
 
 // GetNid returns the Nid field value if set, zero value otherwise.
 func (o *EnrichmentRecord) GetNid() string {
-	if o == nil || o.Nid == nil {
+	if o == nil || IsNil(o.Nid) {
 		var ret string
 		return ret
 	}
@@ -53,7 +56,7 @@ func (o *EnrichmentRecord) GetNid() string {
 // GetNidOk returns a tuple with the Nid field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *EnrichmentRecord) GetNidOk() (*string, bool) {
-	if o == nil || o.Nid == nil {
+	if o == nil || IsNil(o.Nid) {
 		return nil, false
 	}
 	return o.Nid, true
@@ -61,7 +64,7 @@ func (o *EnrichmentRecord) GetNidOk() (*string, bool) {
 
 // HasNid returns a boolean if a field has been set.
 func (o *EnrichmentRecord) HasNid() bool {
-	if o != nil && o.Nid != nil {
+	if o != nil && !IsNil(o.Nid) {
 		return true
 	}
 
@@ -74,8 +77,16 @@ func (o *EnrichmentRecord) SetNid(v string) {
 }
 
 func (o EnrichmentRecord) MarshalJSON() ([]byte, error) {
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
+	}
+	return json.Marshal(toSerialize)
+}
+
+func (o EnrichmentRecord) ToMap() (map[string]interface{}, error) {
 	toSerialize := map[string]interface{}{}
-	if o.Nid != nil {
+	if !IsNil(o.Nid) {
 		toSerialize["nid"] = o.Nid
 	}
 
@@ -83,7 +94,7 @@ func (o EnrichmentRecord) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *EnrichmentRecord) UnmarshalJSON(bytes []byte) (err error) {

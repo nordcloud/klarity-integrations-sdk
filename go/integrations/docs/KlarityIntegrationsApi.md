@@ -27,15 +27,15 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/nordcloud/klarity-integrations-sdk/go/integrations"
 )
 
 func main() {
-    enrichmentsEstateRecordsRequestBody := *openapiclient.NewEnrichmentsEstateRecordsRequestBody([]openapiclient.EnrichmentsEstateRecordsRequestBodyEnrichments{*openapiclient.NewEnrichmentsEstateRecordsRequestBodyEnrichments(*openapiclient.NewEnrichmentRecord(), map[string]interface{}({"lastBackupTime":"2021-10-19T07:10:38.147Z","details":{"succeeded":true,"durationSeconds":1234}}))}) // EnrichmentsEstateRecordsRequestBody |  (optional)
+    enrichmentsEstateRecordsRequestBody := *openapiclient.NewEnrichmentsEstateRecordsRequestBody([]openapiclient.EnrichmentsEstateRecordsRequestBodyEnrichmentsInner{*openapiclient.NewEnrichmentsEstateRecordsRequestBodyEnrichmentsInner(*openapiclient.NewEnrichmentRecord(), map[string]interface{}({"lastBackupTime":"2021-10-19T07:10:38.147Z","details":{"succeeded":true,"durationSeconds":1234}}))}) // EnrichmentsEstateRecordsRequestBody |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.KlarityIntegrationsApi.V1EnrichmentsEstateRecordsPost(context.Background()).EnrichmentsEstateRecordsRequestBody(enrichmentsEstateRecordsRequestBody).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.KlarityIntegrationsApi.V1EnrichmentsEstateRecordsPost(context.Background()).EnrichmentsEstateRecordsRequestBody(enrichmentsEstateRecordsRequestBody).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `KlarityIntegrationsApi.V1EnrichmentsEstateRecordsPost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -93,15 +93,15 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/nordcloud/klarity-integrations-sdk/go/integrations"
 )
 
 func main() {
-    estateRecordsDeleteBody := *openapiclient.NewEstateRecordsDeleteBody(openapiclient.PeriodEnum("current"), []openapiclient.EstateRecordsDeleteBodyRecords{*openapiclient.NewEstateRecordsDeleteBodyRecords()}) // EstateRecordsDeleteBody |  (optional)
+    estateRecordsDeleteBody := *openapiclient.NewEstateRecordsDeleteBody(openapiclient.PeriodEnum("current"), []openapiclient.EstateRecordsDeleteBodyRecordsInner{*openapiclient.NewEstateRecordsDeleteBodyRecordsInner()}) // EstateRecordsDeleteBody |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.KlarityIntegrationsApi.V1EstateRecordsDelete(context.Background()).EstateRecordsDeleteBody(estateRecordsDeleteBody).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.KlarityIntegrationsApi.V1EstateRecordsDelete(context.Background()).EstateRecordsDeleteBody(estateRecordsDeleteBody).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `KlarityIntegrationsApi.V1EstateRecordsDelete``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)
@@ -159,15 +159,15 @@ import (
     "context"
     "fmt"
     "os"
-    openapiclient "./openapi"
+    openapiclient "github.com/nordcloud/klarity-integrations-sdk/go/integrations"
 )
 
 func main() {
-    estateRecordsRequestBody := *openapiclient.NewEstateRecordsRequestBody([]openapiclient.EstateRecordsRequestBodyRecords{*openapiclient.NewEstateRecordsRequestBodyRecords("js002", "jira/subscription/basic")}) // EstateRecordsRequestBody |  (optional)
+    estateRecordsRequestBody := *openapiclient.NewEstateRecordsRequestBody([]openapiclient.EstateRecordsRequestBodyRecordsInner{*openapiclient.NewEstateRecordsRequestBodyRecordsInner("js002", "jira/subscription/basic")}) // EstateRecordsRequestBody |  (optional)
 
     configuration := openapiclient.NewConfiguration()
-    api_client := openapiclient.NewAPIClient(configuration)
-    resp, r, err := api_client.KlarityIntegrationsApi.V1EstateRecordsPost(context.Background()).EstateRecordsRequestBody(estateRecordsRequestBody).Execute()
+    apiClient := openapiclient.NewAPIClient(configuration)
+    resp, r, err := apiClient.KlarityIntegrationsApi.V1EstateRecordsPost(context.Background()).EstateRecordsRequestBody(estateRecordsRequestBody).Execute()
     if err != nil {
         fmt.Fprintf(os.Stderr, "Error when calling `KlarityIntegrationsApi.V1EstateRecordsPost``: %v\n", err)
         fmt.Fprintf(os.Stderr, "Full HTTP response: %v\n", r)

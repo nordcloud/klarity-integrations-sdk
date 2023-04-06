@@ -4,13 +4,13 @@
 
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
-**Enrichments** | [**[]EnrichmentsEstateRecordsRequestBodyEnrichments**](EnrichmentsEstateRecordsRequestBodyEnrichments.md) |  | 
+**Enrichments** | [**[]EnrichmentsEstateRecordsRequestBodyEnrichmentsInner**](EnrichmentsEstateRecordsRequestBodyEnrichmentsInner.md) |  | 
 
 ## Methods
 
 ### NewEnrichmentsEstateRecordsRequestBody
 
-`func NewEnrichmentsEstateRecordsRequestBody(enrichments []EnrichmentsEstateRecordsRequestBodyEnrichments, ) *EnrichmentsEstateRecordsRequestBody`
+`func NewEnrichmentsEstateRecordsRequestBody(enrichments []EnrichmentsEstateRecordsRequestBodyEnrichmentsInner, ) *EnrichmentsEstateRecordsRequestBody`
 
 NewEnrichmentsEstateRecordsRequestBody instantiates a new EnrichmentsEstateRecordsRequestBody object
 This constructor will assign default values to properties that have it defined,
@@ -27,20 +27,20 @@ but it doesn't guarantee that properties required by API are set
 
 ### GetEnrichments
 
-`func (o *EnrichmentsEstateRecordsRequestBody) GetEnrichments() []EnrichmentsEstateRecordsRequestBodyEnrichments`
+`func (o *EnrichmentsEstateRecordsRequestBody) GetEnrichments() []EnrichmentsEstateRecordsRequestBodyEnrichmentsInner`
 
 GetEnrichments returns the Enrichments field if non-nil, zero value otherwise.
 
 ### GetEnrichmentsOk
 
-`func (o *EnrichmentsEstateRecordsRequestBody) GetEnrichmentsOk() (*[]EnrichmentsEstateRecordsRequestBodyEnrichments, bool)`
+`func (o *EnrichmentsEstateRecordsRequestBody) GetEnrichmentsOk() (*[]EnrichmentsEstateRecordsRequestBodyEnrichmentsInner, bool)`
 
 GetEnrichmentsOk returns a tuple with the Enrichments field if it's non-nil, zero value otherwise
 and a boolean to check if the value has been set.
 
 ### SetEnrichments
 
-`func (o *EnrichmentsEstateRecordsRequestBody) SetEnrichments(v []EnrichmentsEstateRecordsRequestBodyEnrichments)`
+`func (o *EnrichmentsEstateRecordsRequestBody) SetEnrichments(v []EnrichmentsEstateRecordsRequestBodyEnrichmentsInner)`
 
 SetEnrichments sets Enrichments field to given value.
 

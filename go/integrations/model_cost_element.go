@@ -3,7 +3,7 @@ Klarity Integrations
 
 REST API for managing Estate Records using Klarity Integrations. You can enrich your estate by creating new kinds of estate records or extending existing ones. Before making use of the API, you must first register your External Integration in Klarity, which provides you with the required authentication credentials. Then, you use those credentials to obtain a Token that allows you to make authorized calls to Klarity’s REST API for External Integration.
 
-API version: 0.0.4
+API version: 0.0.5
 Contact: products@nordcloud.com
 */
 
@@ -14,6 +14,9 @@ package integrations
 import (
 	"encoding/json"
 )
+
+// checks if the CostElement type satisfies the MappedNullable interface at compile time
+var _ MappedNullable = &CostElement{}
 
 // CostElement struct for CostElement
 type CostElement struct {
@@ -57,7 +60,7 @@ func (o *CostElement) GetDate() string {
 // GetDateOk returns a tuple with the Date field value
 // and a boolean to check if the value has been set.
 func (o *CostElement) GetDateOk() (*string, bool) {
-	if o == nil  {
+	if o == nil {
 		return nil, false
 	}
 	return &o.Date, true
@@ -70,7 +73,7 @@ func (o *CostElement) SetDate(v string) {
 
 // GetValue returns the Value field value if set, zero value otherwise.
 func (o *CostElement) GetValue() string {
-	if o == nil || o.Value == nil {
+	if o == nil || IsNil(o.Value) {
 		var ret string
 		return ret
 	}
@@ -80,7 +83,7 @@ func (o *CostElement) GetValue() string {
 // GetValueOk returns a tuple with the Value field value if set, nil otherwise
 // and a boolean to check if the value has been set.
 func (o *CostElement) GetValueOk() (*string, bool) {
-	if o == nil || o.Value == nil {
+	if o == nil || IsNil(o.Value) {
 		return nil, false
 	}
 	return o.Value, true
@@ -88,7 +91,7 @@ func (o *CostElement) GetValueOk() (*string, bool) {
 
 // HasValue returns a boolean if a field has been set.
 func (o *CostElement) HasValue() bool {
-	if o != nil && o.Value != nil {
+	if o != nil && !IsNil(o.Value) {
 		return true
 	}
 
@@ -101,11 +104,17 @@ func (o *CostElement) SetValue(v string) {
 }
 
 func (o CostElement) MarshalJSON() ([]byte, error) {
-	toSerialize := map[string]interface{}{}
-	if true {
-		toSerialize["date"] = o.Date
+	toSerialize,err := o.ToMap()
+	if err != nil {
+		return []byte{}, err
 	}
-	if o.Value != nil {
+	return json.Marshal(toSerialize)
+}
+
+func (o CostElement) ToMap() (map[string]interface{}, error) {
+	toSerialize := map[string]interface{}{}
+	toSerialize["date"] = o.Date
+	if !IsNil(o.Value) {
 		toSerialize["value"] = o.Value
 	}
 
@@ -113,7 +122,7 @@ func (o CostElement) MarshalJSON() ([]byte, error) {
 		toSerialize[key] = value
 	}
 
-	return json.Marshal(toSerialize)
+	return toSerialize, nil
 }
 
 func (o *CostElement) UnmarshalJSON(bytes []byte) (err error) {
